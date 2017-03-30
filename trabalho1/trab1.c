@@ -41,11 +41,13 @@ void desenhaHaste() {
 }
 
 void aplicaTransformacoes() {
-    /*
-        glTranslatef(xpos, ypos, 0.0f);
-        glRotatef(theta, 0.0f, 0.0f, 1.0f);
-        glTranslatef(-xpos, -ypos, 0.0f);
-     */
+    // Iniciar as transformaушes 2D
+    glLoadIdentity();
+
+    // Faz a rotação
+    glTranslatef(xpos, ypos, 0.0f);
+    glRotatef(theta, 0.0f, 0.0f, 1.0f);
+    glTranslatef(-xpos, -ypos, 0.0f);
 }
 
 void desenhaHelice() {
