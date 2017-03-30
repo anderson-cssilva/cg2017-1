@@ -1,6 +1,6 @@
 
 
-#include <GL/glut.h>
+#include <GL/freeglut.h>
 
 /* 
  * Posição do topo da haste do cata vento.
@@ -44,18 +44,15 @@ void desenhaHaste() {
 
 void aplicaTransformacoes() {
     // Iniciar as transforma??es 2D
-    glMatrixMode(GL_MODELVIEW); // Inicia-se a matriz de transforma??es da openGL
     glLoadIdentity();
 
-    // ------------ Desenha os triangulos --------------
-
+    // Faz a rotação
     glTranslatef(xpos, ypos, 0.0f);
     glRotatef(theta, 0.0f, 0.0f, 1.0f);
     glTranslatef(-xpos, -ypos, 0.0f);
 }
 
 void desenhaHelice() {
-
     // Especifica a cor vermelha
     glColor3f(1.0f, 0.0f, 0.0f);
 
@@ -93,16 +90,18 @@ void desenha(void) {
     glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
+    // Iniciar as transforma??es 2D
+    glMatrixMode(GL_MODELVIEW); // Inicia-se a matriz de transforma??es da openGL
+    glLoadIdentity();
+
     /* Desenha o fundo da tela */
     desenhaFundo();
 
     /* Desenha a primeira parte do cata-vento, a Haste, que é fixa */
     desenhaHaste();
 
-    glFlush();
-
     /* Aplica as tranformações necessárias para o movimento das hélices */
-    //aplicaTransformacoes();
+    aplicaTransformacoes();
 
     /* Desenha os triângulos que representam as hélices */
     desenhaHelice();
@@ -147,6 +146,7 @@ int main(int argc, char *argv[]) {
     /* Tratamento de eventios de click do mouse */
     glutMouseFunc(on_mouseClick);
 
+    glMatrixMode(GL_PROJECTION); // Especifica??es de observa??o de cena
     /* Define o plano ortogonal em que a cena será construída */
     gluOrtho2D(0, 400, 0, 400);
 
