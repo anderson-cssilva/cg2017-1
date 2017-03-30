@@ -1,126 +1,151 @@
-#include <stdlib.h>
-#include <stdio.h>
-
-#include <GL/freeglut.h>
+#include <GL/glut.h>
 
 /* 
- * PosiÁ„o do topo da haste do cata vento.
- * … o centro do conjunto de tri‚ngulos que formam a hÈlice.
+ * PosiÔøΩÔøΩo do topo da haste do cata vento.
+ * ÔøΩ o centro do conjunto de triÔøΩngulos que formam a hÔøΩlice.
  */
 GLfloat xpos = 300.0f, ypos = 250.0f;
 
-/* Angulo para movimento da hÈlice */
+/* Angulo para movimento da hÔøΩlice */
 GLfloat theta = 0.0f;
 
-void desenhaFundo()
-{
-	/* Desenha grama verde */
-	glColor3f(0.0f, 1.0f, 0.0f);
-	glBegin(GL_QUADS);
-		glVertex2f(0.0f, 0.0f);
-		glVertex2f(0.0f, 150.0f);
-		glVertex2f(400.0f, 150.0f);
-		glVertex2f(400.0f, 0.0f);
-	glEnd();
+void desenhaFundo() {
+    /* Desenha grama verde */
+    glColor3f(0.0f, 1.0f, 0.0f);
+    glBegin(GL_QUADS);
+    glVertex2f(0.0f, 0.0f);
+    glVertex2f(0.0f, 150.0f);
+    glVertex2f(400.0f, 150.0f);
+    glVertex2f(400.0f, 0.0f);
+    glEnd();
 
-	/* Desenha cÈu azul*/
-	glColor3f(0.0f, 0.0f, 1.0f);
-	glBegin(GL_QUADS);
-		glVertex2f(0.0f, 150.0f);
-		glVertex2f(0.0f, 400.0f);
-		glVertex2f(400.0f, 400.0f);
-		glVertex2f(400.0f, 150.0f);
-	glEnd();
+    /* Desenha cÔøΩu azul*/
+    glColor3f(0.0f, 0.0f, 1.0f);
+    glBegin(GL_QUADS);
+    glVertex2f(0.0f, 150.0f);
+    glVertex2f(0.0f, 400.0f);
+    glVertex2f(400.0f, 400.0f);
+    glVertex2f(400.0f, 150.0f);
+    glEnd();
 }
 
-void desenhaHaste()
-{
-	/* Desenha haste preta */
-	glColor3f(.0f, .0f, .0f);
-	glBegin(GL_QUADS);
-		glVertex2f(299.0f, 100.0f); // botton-left
-		glVertex2f(299.0f, 250.0f); // upper -left
-		glVertex2f(301.0f, 250.0f); // upper-right
-		glVertex2f(301.0f, 100.0f); // botton-right
-	glEnd();
+void desenhaHaste() {
+    /* Desenha haste preta */
+    glColor3f(.0f, .0f, .0f);
+    glBegin(GL_QUADS);
+    glVertex2f(299.0f, 100.0f); // botton-left
+    glVertex2f(299.0f, 250.0f); // upper -left
+    glVertex2f(301.0f, 250.0f); // upper-right
+    glVertex2f(301.0f, 100.0f); // botton-right
+    glEnd();
 }
 
-void aplicaTransformacoes()
-{
-	/*
-		glTranslatef(xpos, ypos, 0.0f);
-		glRotatef(theta, 0.0f, 0.0f, 1.0f);
-		glTranslatef(-xpos, -ypos, 0.0f);
-	 */
+void aplicaTransformacoes() {
+    /*
+        glTranslatef(xpos, ypos, 0.0f);
+        glRotatef(theta, 0.0f, 0.0f, 1.0f);
+        glTranslatef(-xpos, -ypos, 0.0f);
+     */
 }
 
-void desenhaHelice()
-{
+void desenhaHelice() {
+    // Especifica a cor vermelha
+    glColor3f(1.0f, 0.0f, 0.0f);
 
+    // Desenha Helice 1
+    glBegin(GL_TRIANGLES);
+    glVertex2f(xpos, ypos);
+    glVertex2f(xpos + 50.0f, ypos + 15.0f);
+    glVertex2f(xpos + 50.0f, ypos - 15.0f);
+    glEnd();
+
+    // Desenha Helice 2
+    glBegin(GL_TRIANGLES);
+    glVertex2f(xpos, ypos);
+    glVertex2f(xpos - 50.0f, ypos + 15.0f);
+    glVertex2f(xpos - 50.0f, ypos - 15.0f);
+    glEnd();
+
+    // Desenha Helice 3
+    glBegin(GL_TRIANGLES);
+    glVertex2f(xpos, ypos);
+    glVertex2f(xpos - 15.0f, ypos - 50.0f);
+    glVertex2f(xpos + 15.0f, ypos - 50.0f);
+    glEnd();
+
+    // Desenha Helice 4
+    glBegin(GL_TRIANGLES);
+    glVertex2f(xpos, ypos);
+    glVertex2f(xpos - 15.0f, ypos + 50.0f);
+    glVertex2f(xpos + 15.0f, ypos + 50.0f);
+    glEnd();
 }
 
-void desenha(void) 
-{
-	/* Colorir o fundo da cena de branco */
-	glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
+void desenha(void) {
+    /* Colorir o fundo da cena de branco */
+    glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
 
-	/* Desenha o fundo da tela */
-	desenhaFundo();
+    // Iniciar as transforma—É—àes 2D
+    glMatrixMode(GL_MODELVIEW); // Inicia-se a matriz de transforma—É—àes da openGL
+    glLoadIdentity();
 
-	/* Desenha a primeira parte do cata-vento, a Haste, que È fixa */
-	desenhaHaste();
+    /* Desenha o fundo da tela */
+    desenhaFundo();
 
-	/* Aplica as tranformaÁıes necess·rias para o movimento das hÈlices */
-	aplicaTransformacoes();
+    /* Desenha a primeira parte do cata-vento, a Haste, que ÔøΩ fixa */
+    desenhaHaste();
 
-	/* Desenha os tri‚ngulos que representam as hÈlices */
-	desenhaHelice();
+    /* Aplica as tranformaÔøΩÔøΩes necessÔøΩrias para o movimento das hÔøΩlices */
+    aplicaTransformacoes();
 
-	glFlush();
+    /* Desenha os triÔøΩngulos que representam as hÔøΩlices */
+    desenhaHelice();
+
+    glFlush();
 }
 
 /* Evento de click no mouse */
-void on_mouseClick(int botao_clicado, int estado_do_click, 
-		int x_mouse_position, int y_mouse_position) {
-	
-	if(estado_do_click == GLUT_UP) {
-		if(botao_clicado == GLUT_LEFT_BUTTON) {
-			theta += 10.0f;
-		}
+void on_mouseClick(int botao_clicado, int estado_do_click,
+                   int x_mouse_position, int y_mouse_position) {
 
-		if(botao_clicado == GLUT_RIGHT_BUTTON) {
-			theta -= 10.0f;
-		}
-	}
+    if (estado_do_click == GLUT_UP) {
+        if (botao_clicado == GLUT_LEFT_BUTTON) {
+            theta += 10.0f;
+        }
 
-	// ForÁa a glut redesenhar a cena apÛs a atualizaÁ„o.
-	glutPostRedisplay();
+        if (botao_clicado == GLUT_RIGHT_BUTTON) {
+            theta -= 10.0f;
+        }
+    }
+
+    // ForÔøΩa a glut redesenhar a cena apÔøΩs a atualizaÔøΩÔøΩo.
+    glutPostRedisplay();
 }
 
-int main(int argc, char* argv[])
-{
-	/* Inicia uma inst‚ncia da glut */
-	glutInit(&argc, argv); 
+int main(int argc, char *argv[]) {
+    /* Inicia uma inst√¢ncia da glut */
+    glutInit(&argc, argv);
 
-	/* Define o modo de display do buffer */
-	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB); 
+    /* Define o modo de display do buffer */
+    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
 
-	/* Define o tamanho em pixels da janela */
-	glutInitWindowSize(800, 600);
+    /* Define o tamanho em pixels da janela */
+    glutInitWindowSize(600, 600);
 
-	/* Define o tÌtulo da janela */
-	glutCreateWindow("Exemplo OpenGL");
+    /* Define o t√≠tulo da janela */
+    glutCreateWindow("Exemplo OpenGL");
 
-	/* Estabelece que a funÁ„o de rendering È a funÁ„o "desenha(.)" */
-	glutDisplayFunc(desenha);
+    /* Estabelece que a fun√ß√£o de rendering √© a fun√ß√£o "desenha(.)" */
+    glutDisplayFunc(desenha);
 
-	/* Tratamento de eventios de click do mouse */
-	glutMouseFunc(on_mouseClick);
+    /* Tratamento de eventios de click do mouse */
+    glutMouseFunc(on_mouseClick);
 
-	/* Define o plano ortogonal em que a cena ser· construÌda */
-	gluOrtho2D(0, 400, 0, 400); 
+    glMatrixMode(GL_PROJECTION); // Especifica—É—àes de observa—É—Åo de cena
+    /* Define o plano ortogonal em que a cena ser√° constru√≠da */
+    gluOrtho2D(0, 400, 0, 400);
 
-	/* Inicia as operaÁıes conforme as especificaÁıes anteriores */
-	glutMainLoop();
+    /* Inicia as opera√ß√µes conforme as especifica√ß√µes anteriores */
+    glutMainLoop();
 }
