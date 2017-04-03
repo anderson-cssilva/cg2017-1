@@ -1,4 +1,12 @@
-
+/*
+* Computação Gráfica
+* Trabalho 1
+*
+* membros:
+*	Anderson Caio Santos Silva
+*	Luana Okino Sawada
+*	Robson Marques Pessoa
+*/
 
 #include <GL/freeglut.h>
 
@@ -13,7 +21,7 @@ GLfloat theta = 0.0f;
 
 void desenhaFundo() {
     /* Desenha grama verde */
-    glColor3f(0.0f, 1.0f, 0.0f);
+    glColor3f(0.12f, 0.75f, 0.14f);
     glBegin(GL_QUADS);
     glVertex2f(0.0f, 0.0f);
     glVertex2f(0.0f, 150.0f);
@@ -35,49 +43,50 @@ void desenhaHaste() {
     /* Desenha haste preta */
     glColor3f(.0f, .0f, .0f);
     glBegin(GL_QUADS);
-    glVertex2f(299.0f, 100.0f); // botton-left
-    glVertex2f(299.0f, 250.0f); // upper -left
-    glVertex2f(301.0f, 250.0f); // upper-right
-    glVertex2f(301.0f, 100.0f); // botton-right
+    glVertex2f(299.0f, 100.0f); /* botton-left */
+    glVertex2f(299.0f, 250.0f); /* upper -left */
+    glVertex2f(301.0f, 250.0f); /* upper-right */
+    glVertex2f(301.0f, 100.0f); /* botton-right */
     glEnd();
 }
 
 void aplicaTransformacoes() {
-    // Iniciar as transforma??es 2D
+    /* Iniciar as transformações 2D */
     glLoadIdentity();
 
-    // Faz a rotação
+    /* Faz a rotação de todas as hélices com theta graus */
     glTranslatef(xpos, ypos, 0.0f);
     glRotatef(theta, 0.0f, 0.0f, 1.0f);
     glTranslatef(-xpos, -ypos, 0.0f);
 }
 
-void desenhaHelice() {
-    // Especifica a cor vermelha
-    glColor3f(1.0f, 0.0f, 0.0f);
-
-    // Desenha Helice 1
+void desenhaHelices() {
+    /* Desenha Hélices 1 - fucsia */
+    glColor3f(1.0f, 0.0f, 0.5f);
     glBegin(GL_TRIANGLES);
     glVertex2f(xpos, ypos);
     glVertex2f(xpos + 50.0f, ypos + 15.0f);
     glVertex2f(xpos + 50.0f, ypos - 15.0f);
     glEnd();
 
-    // Desenha Helice 2
+    /* Desenha Hélices 2 - blue */
+    glColor3f(0.3f, 0.77f, 0.84f);
     glBegin(GL_TRIANGLES);
     glVertex2f(xpos, ypos);
     glVertex2f(xpos - 50.0f, ypos + 15.0f);
     glVertex2f(xpos - 50.0f, ypos - 15.0f);
     glEnd();
 
-    // Desenha Helice 3
+    /* Desenha Hélices 3 - verde */
+    glColor3f(0.0f, 1.0f, 0.0f);
     glBegin(GL_TRIANGLES);
     glVertex2f(xpos, ypos);
     glVertex2f(xpos - 15.0f, ypos - 50.0f);
     glVertex2f(xpos + 15.0f, ypos - 50.0f);
     glEnd();
 
-    // Desenha Helice 4
+    /* Desenha Hélices 4 - amarela */
+    glColor3f(1.0f, 1.0f, 0.0f);
     glBegin(GL_TRIANGLES);
     glVertex2f(xpos, ypos);
     glVertex2f(xpos - 15.0f, ypos + 50.0f);
@@ -90,8 +99,9 @@ void desenha(void) {
     glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    // Iniciar as transforma??es 2D
-    glMatrixMode(GL_MODELVIEW); // Inicia-se a matriz de transforma??es da openGL
+    /* Iniciar as transformações 2D */
+    /* Inicia-se a matriz de transformações da openGL */
+    glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
     /* Desenha o fundo da tela */
@@ -104,7 +114,7 @@ void desenha(void) {
     aplicaTransformacoes();
 
     /* Desenha os triângulos que representam as hélices */
-    desenhaHelice();
+    desenhaHelices();
 
     glFlush();
 }
@@ -114,16 +124,20 @@ void on_mouseClick(int botao_clicado, int estado_do_click,
                    int x_mouse_position, int y_mouse_position) {
 
     if (estado_do_click == GLUT_UP) {
+    	/* Se o click for com o botão esquerdo do mouse
+    	 então gira todas as hélices para o sentido anti-horário com thera graus*/
         if (botao_clicado == GLUT_LEFT_BUTTON) {
-            theta += 10.0f;
+            theta += 36.0f;
         }
-
+        
+        /* Se o click for com o botão direito do mouse
+         então gira todas as hélices para o sentido horário com thera graus */
         if (botao_clicado == GLUT_RIGHT_BUTTON) {
-            theta -= 10.0f;
+            theta -= 36.0f;
         }
     }
 
-    // Força a glut redesenhar a cena após a atualização.
+    /* Força a glut redesenhar a cena após a atualização. */
     glutPostRedisplay();
 }
 
@@ -138,7 +152,7 @@ int main(int argc, char *argv[]) {
     glutInitWindowSize(600, 600);
 
     /* Define o título da janela */
-    glutCreateWindow("Exemplo OpenGL");
+    glutCreateWindow("Computação Gráfica - Trabalho 1");
 
     /* Estabelece que a função de rendering é a função "desenha(.)" */
     glutDisplayFunc(desenha);
@@ -146,7 +160,9 @@ int main(int argc, char *argv[]) {
     /* Tratamento de eventios de click do mouse */
     glutMouseFunc(on_mouseClick);
 
-    glMatrixMode(GL_PROJECTION); // Especifica??es de observa??o de cena
+    /* Especificações de observação de cena */
+    glMatrixMode(GL_PROJECTION);
+
     /* Define o plano ortogonal em que a cena será construída */
     gluOrtho2D(0, 400, 0, 400);
 
