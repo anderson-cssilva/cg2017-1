@@ -4,6 +4,7 @@
 
 #include <cstdio>
 #include "../includes/Plane.h"
+
 Plane::Plane(GLfloat x, GLfloat y) {
     this->x_pos = x;
     this->y_pos = y;
@@ -14,13 +15,6 @@ Plane::Plane(GLfloat x, GLfloat y) {
 }
 
 void Plane::draw() {
-    glLoadIdentity();
-    glTranslatef(this->x_pos, 0.0f, 0.0f);
-    glTranslatef(0.0f, -0.8f, 0.0f);    // Tras o conjunto do jato e misseis para bottom da tela
-    glScalef(0.1f, 0.1f, 0.0f); // Reduz 90% o tamanho do conjunto
-
-    //glTranslatef(0.0f, -0.8f, 0.0f);
-
     glColor3f(this->red, this->green, this->blue);
     glLineWidth(2);
     //x vai de -1 ate 1, y vai de -1 ate 0.1
@@ -55,6 +49,8 @@ void Plane::draw() {
 }
 
 void Plane::move(int direction) {
+	printf("plane: (%f, %f)\n", this->x_pos, this->y_pos);
+	
     if (direction == left_direction) {
         this->x_pos -= 0.05;
         if (this->x_pos < -0.9f) // Trava o aviao a esquerda da tela

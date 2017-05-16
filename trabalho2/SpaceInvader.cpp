@@ -54,19 +54,32 @@ void Desenha(void) {
     // de fundo definida previamente
     glClear(GL_COLOR_BUFFER_BIT);
 
+    // Desenha os invasores
+    glTranslatef(0.0f, -0.8f, 0.0f);    // Tras o conjunto para bottom da tela
+    glScalef(0.1f, 0.1f, 0.0f); 		// Reduz 90% o tamanho do conjunto
+    DesenhaInvasores();
+
     // Desenha o jatinho.
+    glLoadIdentity();
+    glTranslatef(plane->get_x(), 0.0f, 0.0f);
+    glTranslatef(0.0f, -0.8f, 0.0f);
+    glScalef(0.1f, 0.1f, 0.0f);
     plane->draw();
 
-    glLoadIdentity();
-    glTranslatef(0.0f, -0.8f, 0.0f);    // Tras o conjunto do jato e misseis para bottom da tela
-    glScalef(0.1f, 0.1f, 0.0f); // Reduz 90% o tamanho do conjunto
-    DesenhaTiros();
-
-    // Desenha os invasores
-    glLoadIdentity();
-    glTranslatef(0.0f, -0.8f, 0.0f);    // Tras o conjunto do jato e misseis para bottom da tela
-    glScalef(0.1f, 0.1f, 0.0f); // Reduz 90% o tamanho do conjunto
-    DesenhaInvasores();
+	// Desenha o missel
+	/*
+	 * 		// se o missel ainda não foi disparado, desenhar no topo do avião
+	 * 			// ou seja, translada como a posição X do avião
+	 *	if( !missel_active ) {
+	 *		
+	 *	}
+	 *		// missel tá em movimento, não transforma sua coordenada X com a pos do avião
+	 *	else {
+	 *		
+	 *	}
+	 *
+	 *
+	 */
 
     // Executa os comandos OpenGL
     glFlush();
@@ -103,6 +116,7 @@ void AlteraTamanhoJanela(GLsizei w, GLsizei h) {
 
 // Função callback chamada para gerenciar eventos de teclas especiais(F1,PgDn,...)
 void TeclasEspeciais(int key, int x, int y) {
+
     // Move a base
     if (key == GLUT_KEY_LEFT) {
         plane->move(left_direction);
@@ -116,6 +130,7 @@ void TeclasEspeciais(int key, int x, int y) {
 
 // Função callback chamada para gerenciar eventos de teclas
 void Teclado(unsigned char key, int x, int y) {
+
     if (key == 27)
         exit(0);
 
