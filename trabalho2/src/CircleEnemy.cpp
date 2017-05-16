@@ -21,8 +21,8 @@ void CircleEnemy::draw() {
     {
         float theta = 2.0f * 3.1415926f * float(i) / float(segments);//get the current angle
 
-        float x = cosf(theta) / 2;//calculate the x component
-        float y = sinf(theta) / 2;//calculate the y component
+        float x = cosf(theta) / 20;//calculate the x component
+        float y = sinf(theta) / 20;//calculate the y component
 
         glVertex2f(x + this->x_pos, y + this->y_pos);//output vertex
     }

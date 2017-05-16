@@ -58,8 +58,6 @@ void Desenha(void) {
     glClear(GL_COLOR_BUFFER_BIT);
 
     // Desenha os invasores
-    glTranslatef(0.0f, -0.8f, 0.0f);    // Tras o conjunto para bottom da tela
-    glScalef(0.1f, 0.1f, 0.0f);        // Reduz 90% o tamanho do conjunto
     DesenhaInvasores();
 
     // Desenha o jatinho.
@@ -158,13 +156,10 @@ void Inicializa(void) {
         for (int j = 0; j < 10; j++) {
             Enemy *enemy;
 
-            GLfloat x = (j + 1) * 500 + 1000;
-            GLfloat y = i * 525 + 5000;
+            GLfloat x = (j + 1) * 0.15f - 0.9f;
+            GLfloat y = (i + 1) * 0.15f + 0.2f;
 
-            // TODO convert to normal coordinates
-            // Esses valores são uns aleatórios aí
-            x = 0.0025 * x - 10;
-            y = 0.0025 * y - 1;
+            cout << "ANTES - ("<< x << ", " << y << ")"<< endl;
 
             if (i == 0)
                 enemy = (Enemy *) new SquareEnemy(x, y);

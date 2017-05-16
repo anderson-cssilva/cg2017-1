@@ -15,8 +15,8 @@ void TriangleEnemy::draw() {
     glLineWidth(2);
 //x vai de -1 ate 1, y vai de -1 ate 0.1
     glBegin(GL_TRIANGLES);
-    glVertex2f(this->x_pos, this->y_pos - 0.5);
-    glVertex2f(this->x_pos - 0.25, this->y_pos + 0.5);
-    glVertex2f(this->x_pos + 0.25, this->y_pos + 0.5);
+    glVertex2f(this->x_pos, this->y_pos - 0.05f);
+    glVertex2f(this->x_pos - 0.025f, this->y_pos + 0.05f);
+    glVertex2f(this->x_pos + 0.025f, this->y_pos + 0.05f);
     glEnd();
 }

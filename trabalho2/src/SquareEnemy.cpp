@@ -14,9 +14,9 @@ void SquareEnemy::draw() {
     glColor3f(this->red, this->green, this->blue);
     glLineWidth(2);
     glBegin(GL_QUADS);
-    glVertex2f(this->x_pos - 0.5, this->y_pos - 0.5);
-    glVertex2f(this->x_pos - 0.5, this->y_pos + 0.5);
-    glVertex2f(this->x_pos + 0.5, this->y_pos + 0.5);
-    glVertex2f(this->x_pos + 0.5, this->y_pos - 0.5);
+    glVertex2f(this->x_pos - 0.05f, this->y_pos - 0.05f);
+    glVertex2f(this->x_pos - 0.05f, this->y_pos + 0.05f);
+    glVertex2f(this->x_pos + 0.05f, this->y_pos + 0.05f);
+    glVertex2f(this->x_pos + 0.05f, this->y_pos - 0.05f);
     glEnd();
 }
