@@ -7,6 +7,9 @@
 #include <cstdio>
 #include <vector>
 
+#include <iostream>
+using namespace std;
+
 std::vector<Shoot*> active_shoots;
 
 Shoot::Shoot(Shooter *shooter, GLfloat x_pos, GLfloat y_pos, int direction) {
@@ -32,44 +35,28 @@ bool Shoot::unavailable() {
 void move_shoot(int step) {
     for (int i=0; i < active_shoots.size(); ++i)
         active_shoots.at(i)->move(step);
+
     glutPostRedisplay();
     glutTimerFunc(10, move_shoot, step);
 }
 
 void Shoot::move(int step) {
-    // TODO choose direction according to object attribute comparison.
-    if (up_direction)
-        this->y_pos -= (2.0 * step) / 100;
-    else if (down_direction)
+    if (this->direction == up_direction)
         this->y_pos += (2.0 * step) / 100;
+    else
+        this->y_pos -= (2.0 * step) / 100;
 
-    if (unavailable()) {
-        shooter->shoot_done();
+    if (this->unavailable()) {
+        //this->shooter->shoot_done();
     }
 }
 
 void Shoot::draw() {
-    glPushMatrix();
-
-    glColor3f(this->red, this->green, this->blue);
-    glLineWidth(2);
-
-    glTranslatef(this->x_pos, this->y_pos, 0.0f);
-
-    glBegin(GL_POLYGON);
-    glVertex2f(0.1f, -0.1f);
-    glVertex2f(0.1f, 0.1f);
-    glVertex2f(0.0f, 0.2f);
-    glVertex2f(-0.1f, 0.1f);
-    glVertex2f(-0.1f, -0.1f);
-    glEnd();
-
-    glPopMatrix(); //Pro jatinho nao sair junto com o missel 1.
 }
 
 void Shoot::start() {
     active_shoots.push_back((Shoot *&&) this);
-    move_shoot(2);
+    move_shoot(1);
 }
 
 GLfloat Shoot::get_x() {

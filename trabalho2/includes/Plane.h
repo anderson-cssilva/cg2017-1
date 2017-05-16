@@ -5,7 +5,6 @@
 #ifndef TRABALHO2_PLANE_H
 #define TRABALHO2_PLANE_H
 
-
 #include <GL/glut.h>
 #include "Shoot.h"
 #include "Shooter.h"
@@ -23,12 +22,13 @@ public:
     GLfloat get_x();
     GLfloat get_y();
 
-	bool shoot_active();
+	bool is_shoot_active();
+	Shoot* get_shoot();
 
 private:
     GLfloat x_pos, y_pos;
     int life;
-    bool has_shooted;
+	Shoot *sht;
     GLfloat red, green, blue;
 };
 

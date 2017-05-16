@@ -25,18 +25,7 @@ using namespace std;
 
 // Declaração de variáveis globais
 std::vector<Enemy *> invasors;
-std::vector<Shoot *> shoots;
 Plane *plane = new Plane(0.0f, 0.0f);
-
-bool shoot_active = false;
-GLfloat missel_x, missel_y;
-
-void move_tiro(int step) {
-    missel_y += (1.0 * step) / 100;
-
-    glutPostRedisplay();
-    glutTimerFunc(10, move_tiro, step);
-}
 
 void DesenhaTiro() {
     glColor3f(0, 0, 0);
@@ -51,17 +40,11 @@ void DesenhaTiro() {
     glEnd();
 }
 
-
 void move_enemy(int step) {
     for (int i=0; i< invasors.size(); ++i)
         invasors.at(i)->move(step);
     glutPostRedisplay();
     glutTimerFunc(10, move_enemy, step);
-}
-
-void DesenhaTiros() {
-    for (int i = 0; i < shoots.size(); ++i)
-        shoots.at(i)->draw();
 }
 
 void DesenhaInvasores() {
@@ -97,15 +80,15 @@ void Desenha(void) {
 	//
 	// se o missel ainda não foi disparado, desenhar no topo do avião
 	// ou seja, translada como a posição X do avião
-	if(	!shoot_active ) {
+	if(	!plane->is_shoot_active()) {
 		DesenhaTiro();
 	}
 	// missel tá em movimento, não transforma sua coordenada X com a pos do avião
 	else {
-		cout << missel_x << ", " << missel_y << endl;
+		cout << plane->get_shoot()->get_x() << ", " <<  plane->get_shoot()->get_y() << endl;
 
     	glLoadIdentity();
-    	glTranslatef(missel_x, missel_y, 0.0f);
+    	glTranslatef(plane->get_shoot()->get_x(), plane->get_shoot()->get_y(), 0.0f);
 		glTranslatef(0.0f, -0.8f, 0.0f);
 		glScalef(0.1f, 0.1f, 0.0f);
 
@@ -165,11 +148,8 @@ void Teclado(unsigned char key, int x, int y) {
     if (key == 27)
         exit(0);
 
-    if (key == 32 && !shoot_active) {
-		shoot_active = true;
-		missel_x = plane->get_x();
-		missel_y = plane->get_y();
-		move_tiro(2);
+    if (key == 32 && !plane->is_shoot_active()) {
+		plane->shoot()->start();
     }
 }
 
