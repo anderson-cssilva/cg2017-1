@@ -23,6 +23,8 @@ public:
     GLfloat get_x();
     GLfloat get_y();
 
+	bool shoot_active();
+
 private:
     GLfloat x_pos, y_pos;
     int life;

@@ -89,3 +89,7 @@ GLfloat Plane::get_y() {
 void Plane::shoot_done() {
     this->has_shooted = false;
 }
+
+bool Plane::shoot_active() {
+	return this->has_shooted;
+}

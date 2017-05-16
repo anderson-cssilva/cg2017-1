@@ -20,10 +20,37 @@
 #include "includes/TriangleEnemy.h"
 #include "includes/Plane.h"
 
+#include <iostream>
+using namespace std;
+
 // Declaração de variáveis globais
 std::vector<Enemy *> invasors;
 std::vector<Shoot *> shoots;
-Plane *plane = new Plane(0.0f, -0.55f);
+Plane *plane = new Plane(0.0f, 0.0f);
+
+bool shoot_active = false;
+GLfloat missel_x, missel_y;
+
+void move_tiro(int step) {
+    missel_y += (1.0 * step) / 100;
+
+    glutPostRedisplay();
+    glutTimerFunc(10, move_tiro, step);
+}
+
+void DesenhaTiro() {
+    glColor3f(0, 0, 0);
+    glLineWidth(2);
+
+    glBegin(GL_POLYGON);
+    glVertex2f(0.1f, -0.1f);
+    glVertex2f(0.1f, 0.1f);
+    glVertex2f(0.0f, 0.2f);
+    glVertex2f(-0.1f, 0.1f);
+    glVertex2f(-0.1f, -0.1f);
+    glEnd();
+}
+
 
 void move_enemy(int step) {
     for (int i=0; i< invasors.size(); ++i)
@@ -67,19 +94,23 @@ void Desenha(void) {
     plane->draw();
 
 	// Desenha o missel
-	/*
-	 * 		// se o missel ainda não foi disparado, desenhar no topo do avião
-	 * 			// ou seja, translada como a posição X do avião
-	 *	if( !missel_active ) {
-	 *		
-	 *	}
-	 *		// missel tá em movimento, não transforma sua coordenada X com a pos do avião
-	 *	else {
-	 *		
-	 *	}
-	 *
-	 *
-	 */
+	//
+	// se o missel ainda não foi disparado, desenhar no topo do avião
+	// ou seja, translada como a posição X do avião
+	if(	!shoot_active ) {
+		DesenhaTiro();
+	}
+	// missel tá em movimento, não transforma sua coordenada X com a pos do avião
+	else {
+		cout << missel_x << ", " << missel_y << endl;
+
+    	glLoadIdentity();
+    	glTranslatef(missel_x, missel_y, 0.0f);
+		glTranslatef(0.0f, -0.8f, 0.0f);
+		glScalef(0.1f, 0.1f, 0.0f);
+
+		DesenhaTiro();
+	}
 
     // Executa os comandos OpenGL
     glFlush();
@@ -134,12 +165,11 @@ void Teclado(unsigned char key, int x, int y) {
     if (key == 27)
         exit(0);
 
-    if (key == 32) {
-        Shoot* sht = plane->shoot();
-        if (sht != NULL) {
-            sht->start();
-            shoots.push_back(sht);
-        }
+    if (key == 32 && !shoot_active) {
+		shoot_active = true;
+		missel_x = plane->get_x();
+		missel_y = plane->get_y();
+		move_tiro(2);
     }
 }
 
