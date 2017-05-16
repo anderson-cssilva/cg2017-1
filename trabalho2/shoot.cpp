@@ -3,3 +3,7 @@
 //
 
 #include "shoot.h"
+
+shoot::shoot(GLfloat x_pos, GLfloat y_pos) {
+
+}

@@ -3,7 +3,6 @@
 //
 
 #include "enemy.h"
-#include "shoot.h"
 
 enemy::enemy(GLfloat x, GLfloat y) {
     this->x_pos = x;
@@ -15,7 +14,7 @@ void enemy::move() {
 }
 
 shoot enemy::shoot() {
-    shoot sht = new shoot(this->x_pos, this->y_pos);
+    shoot *sht = new shoot(this->x_pos, this->y_pos);
     sht->set_color(this->red, this->green, this->blue);
     return sht;
 }
