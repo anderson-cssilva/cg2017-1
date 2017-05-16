@@ -37,6 +37,7 @@ void move_shoot(int step) {
 }
 
 void Shoot::move(int step) {
+    // TODO choose direction according to object attribute comparison.
     if (up_direction)
         this->y_pos -= (2.0 * step) / 100;
     else if (down_direction)
