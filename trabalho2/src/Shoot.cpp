@@ -65,18 +65,16 @@ void Shoot::draw() {
 
     glLoadIdentity();
     glTranslatef(this->x_pos, this->y_pos, 0.0f);
-    glTranslatef(0.0f, -0.8f, 0.0f);
-    glScalef(0.1f, 0.1f, 0.0f);
 
     glColor3f(this->red, this->green, this->blue);
     glLineWidth(2);
 
     glBegin(GL_POLYGON);
-    glVertex2f(0.1f, -0.1f);
-    glVertex2f(0.1f, 0.1f);
-    glVertex2f(0.0f, 0.2f);
-    glVertex2f(-0.1f, 0.1f);
-    glVertex2f(-0.1f, -0.1f);
+    glVertex2f(0.01f, -0.01f);
+    glVertex2f(0.01f, 0.01f);
+    glVertex2f(0.0f, 0.02f);
+    glVertex2f(-0.01f, 0.01f);
+    glVertex2f(-0.01f, -0.01f);
     glEnd();
 
     glPopMatrix(); //Pro jatinho nao sair junto com o missel 1.
