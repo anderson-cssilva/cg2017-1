@@ -7,12 +7,12 @@
 
 #include <GL/glut.h>
 #include "Shoot.h"
+#include <vector>
 
 class Enemy {
 public:
     Enemy(GLfloat x, GLfloat y);
     virtual void draw() = 0;
-    void start();
     void move(int step);
     Shoot* shoot();
 
@@ -25,6 +25,5 @@ protected:
     GLfloat red, green, blue;
 	bool shoot_active;
 };
-
 
 #endif //TRABALHO2_ENEMY_H
