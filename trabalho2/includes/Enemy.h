@@ -23,7 +23,7 @@ protected:
     GLfloat x_pos, y_pos;
     bool active;
     GLfloat red, green, blue;
-
+	bool shoot_active;
 };
 
 
