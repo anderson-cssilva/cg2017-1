@@ -8,6 +8,9 @@
 
 #include "Enemy.h"
 
+/* Esta classe é uma implementação de Enemy que representa um inimigo
+ * em formato triangular.
+ */
 class TriangleEnemy : Enemy {
         public:
         TriangleEnemy(GLfloat x, GLfloat y);

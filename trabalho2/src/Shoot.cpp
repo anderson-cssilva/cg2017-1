@@ -56,7 +56,7 @@ void Shoot::move(int step) {
         auto it = std::find(active_shoots.begin(), active_shoots.end(), this);
         if(it != active_shoots.end())
             active_shoots.erase(it);
-        shooter->shoot_done();
+        shooter->hit_target();
     }
 }
 

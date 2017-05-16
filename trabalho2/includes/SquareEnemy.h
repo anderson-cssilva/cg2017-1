@@ -8,6 +8,9 @@
 
 #include "Enemy.h"
 
+/* Esta classe é uma implementação de Enemy que representa um inimigo
+ * em formato quadrado.
+ */
 class SquareEnemy : Enemy {
 public:
     SquareEnemy(GLfloat x, GLfloat y);

@@ -37,7 +37,7 @@ Shoot* Enemy::shoot() {
 
     return this->my_shoot;
 }
-void Enemy::shoot_done() {
+void Enemy::hit_target() {
     delete this->my_shoot;
     this->my_shoot = NULL;
 }
