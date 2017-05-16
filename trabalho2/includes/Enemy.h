@@ -7,14 +7,16 @@
 
 #include <GL/glut.h>
 #include "Shoot.h"
+#include "Shooter.h"
 #include <vector>
 
-class Enemy {
+class Enemy : Shooter {
 public:
     Enemy(GLfloat x, GLfloat y);
     virtual void draw() = 0;
     void move(int step);
     Shoot* shoot();
+    void shoot_done();
 
     GLfloat get_x();
     GLfloat get_y();

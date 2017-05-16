@@ -121,8 +121,10 @@ void Teclado(unsigned char key, int x, int y) {
 
     if (key == 32) {
         Shoot* sht = plane->shoot();
-        sht->start();
-        shoots.push_back(sht);
+        if (sht != NULL) {
+            sht->start();
+            shoots.push_back(sht);
+        }
     }
 }
 

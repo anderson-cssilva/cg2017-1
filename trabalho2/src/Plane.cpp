@@ -11,6 +11,7 @@ Plane::Plane(GLfloat x, GLfloat y) {
     this->red = 1.0f;
     this->green = 0.0f;
     this->blue = 1.0f;
+    this->has_shooted = false;
 }
 
 void Plane::draw() {
@@ -18,8 +19,6 @@ void Plane::draw() {
     glTranslatef(this->x_pos, 0.0f, 0.0f);
     glTranslatef(0.0f, -0.8f, 0.0f);    // Tras o conjunto do jato e misseis para bottom da tela
     glScalef(0.1f, 0.1f, 0.0f); // Reduz 90% o tamanho do conjunto
-
-    //glTranslatef(0.0f, -0.8f, 0.0f);
 
     glColor3f(this->red, this->green, this->blue);
     glLineWidth(2);
@@ -67,11 +66,18 @@ void Plane::move(int direction) {
 }
 
 Shoot* Plane::shoot() {
-    Shoot* sht = new Shoot(this->x_pos, this->y_pos, up_direction);
-    printf("(%f, %f)\n", this->x_pos, this->y_pos);
+    if (!has_shooted) {
+        Shoot *sht = new Shoot(this, this->x_pos, this->y_pos, up_direction);
+        printf("(%f, %f)\n", this->x_pos, this->y_pos);
 
-    sht->set_color(0.0f, 0.0f, 0.0f);
-    return sht;
+        sht->set_color(0.0f, 0.0f, 0.0f);
+
+        this->has_shooted = true;
+
+        return sht;
+    }
+
+    return NULL;
 }
 
 GLfloat Plane::get_x() {
@@ -80,4 +86,8 @@ GLfloat Plane::get_x() {
 
 GLfloat Plane::get_y() {
     return this->y_pos;
+}
+
+void Plane::shoot_done() {
+    this->has_shooted = false;
 }

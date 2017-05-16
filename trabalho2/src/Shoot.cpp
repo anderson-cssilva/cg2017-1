@@ -9,16 +9,24 @@
 
 std::vector<Shoot*> active_shoots;
 
-Shoot::Shoot(GLfloat x_pos, GLfloat y_pos, int direction) {
+Shoot::Shoot(Shooter *shooter, GLfloat x_pos, GLfloat y_pos, int direction) {
     this->x_pos = x_pos;
     this->y_pos = y_pos;
     this->direction = direction;
+    this->shooter = shooter;
 }
 
 void Shoot::set_color(GLfloat red, GLfloat green, GLfloat blue) {
     this->red = red;
     this->green = green;
     this->blue = blue;
+}
+
+bool Shoot::unavailable() {
+    // Out of y bounds
+    if (this->y_pos >= 20.0f)
+        return true;
+    return false;
 }
 
 void move_shoot(int step) {
@@ -34,6 +42,9 @@ void Shoot::move(int step) {
     else if (down_direction)
         this->y_pos += (2.0 * step) / 100;
 
+    if (unavailable()) {
+        shooter->shoot_done();
+    }
 }
 
 void Shoot::draw() {
@@ -43,8 +54,6 @@ void Shoot::draw() {
     glLineWidth(2);
 
     glTranslatef(this->x_pos, this->y_pos, 0.0f);
-    printf("--(%f, %f)\n", this->x_pos, this->y_pos);
-
 
     glBegin(GL_POLYGON);
     glVertex2f(0.1f, -0.1f);
