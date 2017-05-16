@@ -20,12 +20,12 @@ GLfloat aviao_x = 0, missel1_tx = 0;
 bool missel1_moving = false;
 int msec_missel1 = 0;
 
+enum invasor_tipo { quadrado, circulo, retangulo };
 struct INVASOR {
 	// 3 designs diferentes de naves invasoras
-	
-	int tipo;
+	enum invasor_tipo tipo;
 
-	// se o invasor já foi atingida ou não
+	// se o invasor ainda não foi atingido
 	bool ativa;
 
 	// posição atual da nave invasora
@@ -207,9 +207,24 @@ void Inicializa (void)
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 	gluOrtho2D (-1.0f, 1.0f, -1.0f, 1.0f);
 	glViewport(0, 0, 500, 500);   
+
+
+	// Inicializa os tipos dos invasores
+	for(int i = 0; i < 5; i++) {
+		for(int j = 0; j < 10; j++) {
+			if(i == 0)
+				invasors[i][j].tipo = quadrado;
+			else if(i < 3)
+				invasors[i][j].tipo = circulo;
+			else
+				invasors[i][j].tipo = retangulo;
+
+			invasors[i][j].ativa = true;
+			invasors[i][j].x = (j+1)*70;
+			invasors[i][j].y = i*100 + 100;
+		}
+	}
 }
-
-
 
 // Programa Principal 
 int main(int argc, char* argv[])
