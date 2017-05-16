@@ -12,7 +12,7 @@ Plane::Plane(GLfloat x, GLfloat y) {
     this->red = 1.0f;
     this->green = 0.0f;
     this->blue = 1.0f;
-    this->has_shooted = false;
+    this->my_shoot = NULL;
 }
 
 void Plane::draw() {
@@ -47,10 +47,23 @@ void Plane::draw() {
     glVertex2f(-0.1f, 0.1f);
     glVertex2f(-0.1f, -0.1f);
     glEnd();
+
+    if (!this->has_shot()) {
+        glColor3f(0, 0, 0);
+        glLineWidth(2);
+
+        glBegin(GL_POLYGON);
+        glVertex2f(0.1f, -0.1f);
+        glVertex2f(0.1f, 0.1f);
+        glVertex2f(0.0f, 0.2f);
+        glVertex2f(-0.1f, 0.1f);
+        glVertex2f(-0.1f, -0.1f);
+        glEnd();
+    }
 }
 
 void Plane::move(int direction) {
-	printf("plane: (%f, %f)\n", this->x_pos, this->y_pos);
+
 
     if (direction == left_direction) {
         this->x_pos -= 0.05;
@@ -64,18 +77,14 @@ void Plane::move(int direction) {
 }
 
 Shoot* Plane::shoot() {
-    if (!has_shooted) {
+    if (this->my_shoot == NULL) {
         Shoot *sht = new Shoot(this, this->x_pos, this->y_pos, up_direction);
-        printf("(%f, %f)\n", this->x_pos, this->y_pos);
-
         sht->set_color(0.0f, 0.0f, 0.0f);
-
-        this->has_shooted = true;
-
-        return sht;
+        this->my_shoot = sht;
+        this->my_shoot->start();
     }
 
-    return NULL;
+    return this->my_shoot;
 }
 
 GLfloat Plane::get_x() {
@@ -87,9 +96,10 @@ GLfloat Plane::get_y() {
 }
 
 void Plane::shoot_done() {
-    this->has_shooted = false;
+    delete this->my_shoot;
+    this->my_shoot = NULL;
 }
 
-bool Plane::shoot_active() {
-	return this->has_shooted;
+bool Plane::has_shot() {
+	return this->my_shoot != NULL;
 }

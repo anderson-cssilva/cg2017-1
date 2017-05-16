@@ -23,12 +23,12 @@ public:
     GLfloat get_x();
     GLfloat get_y();
 
-	bool shoot_active();
+	bool has_shot();
 
 private:
     GLfloat x_pos, y_pos;
     int life;
-    bool has_shooted;
+    Shoot* my_shoot;
     GLfloat red, green, blue;
 };
 

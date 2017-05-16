@@ -20,6 +20,8 @@ public:
     GLfloat get_x();
     GLfloat get_y();
 
+    static void draw_shoots();
+
 private:
     GLfloat x_pos, y_pos;
     int direction;
