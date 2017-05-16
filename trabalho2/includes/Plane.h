@@ -11,24 +11,33 @@
 
 enum {right_direction, left_direction};
 
+/* Esta classe provê a representação de um Jatinho, o qual
+ * o usuário utilizará como personagem chave no jogo.
+ *
+ * Ela é uma subclasse de Shooter, pois performa tiros para
+ * derrotar os inimigos invasores.
+ */
 class Plane : Shooter {
 public:
     Plane(GLfloat x, GLfloat y);
+	// métodos responsáveis pelo desenho e movimentação do jato 
     void draw();
     void move(int direction);
-    Shoot* shoot();
-    void shoot_done();
 
-    GLfloat get_x();
-    GLfloat get_y();
-
+	// métodos responsáveis pelo controle do tiro
+	Shoot* shoot();
 	bool has_shot();
+	void hit_target();
+
+	// métodos get
+	GLfloat get_x();
+	GLfloat get_y();
 
 private:
     GLfloat x_pos, y_pos;
-    int life;
     Shoot* my_shoot;
     GLfloat red, green, blue;
+	int life;
 };
 
 

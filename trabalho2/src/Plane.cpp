@@ -93,7 +93,7 @@ GLfloat Plane::get_y() {
     return this->y_pos;
 }
 
-void Plane::shoot_done() {
+void Plane::hit_target() {
     delete this->my_shoot;
     this->my_shoot = NULL;
 }

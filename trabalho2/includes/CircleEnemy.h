@@ -8,6 +8,9 @@
 
 #include "Enemy.h"
 
+/* Esta classe é uma implementação de Enemy que representa um inimigo
+ * em formato de círculo.
+ */
 class CircleEnemy : Enemy {
 public:
     CircleEnemy(GLfloat x, GLfloat y);
