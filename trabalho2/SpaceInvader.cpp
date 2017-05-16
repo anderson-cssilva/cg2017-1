@@ -15,58 +15,68 @@
 #include <GL/freeglut.h>
 
 // Declaração de variáveis globais
-GLfloat missel1_y = 0, missel2_y = 0;
-GLfloat aviao_x = 0, missel1_tx = 0, missel2_tx = 0;
+GLfloat missel1_y = 0;
+GLfloat aviao_x = 0, missel1_tx = 0;
 
-bool missel1_moving = false, missel2_moving = false;
+bool missel1_moving = false;
 
-int msec_missel1 = 0, msec_missel2 = 0;
+int msec_missel1 = 0;
 
 
 void move_missel1(int passo){
 	
-	missel1_y += (1.0*passo)/100;
+	missel1_y += (2.0*passo)/100;
 	glutPostRedisplay();
 	
 	glutTimerFunc(10, move_missel1, passo);
 }
-void move_missel2(int passo){
-	
-	missel2_y += (1.0*passo)/100;
-	glutPostRedisplay();
-	
-	glutTimerFunc(10, move_missel2, passo);
-}
+
 
 // Função para desenhar a base do objeto           
 void DesenhaAviao(){
 	
 	glColor3f(1.0f,0.0f,1.0f);
 	glLineWidth(2);
-	glBegin(GL_TRIANGLES);
-		glVertex2f(-1.0f,-1.0f);
-		glVertex2f(1.0f,-1.0f);
-		glVertex2f(0.0f,0.0f);		
-	glEnd();
-	
+//x vai de -1 ate 1, y vai de -1 ate 0.1
 	glBegin(GL_QUADS);
-		glVertex2f(0.2f,-0.2f);
-		glVertex2f(0.2f,0.5f);
-		glVertex2f(-0.2f,0.5f);
-		glVertex2f(-0.2f,-0.2f);
+		glVertex2f(1.0f,-1.0f);
+		glVertex2f(1.0f,-0.5f);		
+		glVertex2f(-1.0f,-0.5f);
+		glVertex2f(-1.0f,-1.0f);
+	glEnd();
+
+	glBegin(GL_QUADS);		
+		glVertex2f(0.8f,-0.5f);
+		glVertex2f(0.8f,-0.4f);
+		glVertex2f(-0.8f,-0.4f);
+		glVertex2f(-0.8f,-0.5f);
+	glEnd();
+
+	glBegin(GL_QUADS);
+		glVertex2f(0.25f,-0.4f);
+		glVertex2f(0.25f,-0.1f);
+		glVertex2f(-0.25f,-0.1f);
+		glVertex2f(-0.25f,-0.4f);
+	glEnd();
+
+	glBegin(GL_QUADS);
+		glVertex2f(0.1f,-0.1f);
+		glVertex2f(0.1f,0.1f);
+		glVertex2f(-0.1f,0.1f);
+		glVertex2f(-0.1f,-0.1f);
 	glEnd();
 }
 
 void DesenhaMisseis(){
 	
-	glColor3f(1.0f,0.0f,0.0f);
+	glColor3f(0.0f,0.0f,0.0f);
 	glLineWidth(2);
 	glBegin(GL_POLYGON);
-		glVertex2f(-1.0f,-1.0f);
-		glVertex2f(-1.0f,-0.7f);
-		glVertex2f(-0.9f,-0.6f);
-		glVertex2f(-0.8f,-0.7f);
-		glVertex2f(-0.8f,-1.0f);
+		glVertex2f(0.1f,-0.1f);
+		glVertex2f(0.1f,0.1f);
+		glVertex2f(0.0f,0.2f);
+		glVertex2f(-0.1f,0.1f);
+		glVertex2f(-0.1f,-0.1f);
 	glEnd();
 }
            
@@ -91,20 +101,7 @@ void Desenha(void)
 	glTranslatef(0.0f,-0.8f,0.0f);	// Tras o conjunto do jato e misseis para bottom da tela
 	glScalef(0.1,0.1f,0.0f); // Reduz 90% o tamanho do conjunto
 	glPushMatrix(); 
-	
-	if(missel2_moving){			
-		glTranslatef(-aviao_x,0.0f,0.0f);	
-		glTranslatef(missel2_tx,0.0f,0.0f);
-	}
-	
-	//Míssel 2;
-	glTranslatef(0.0f,missel2_y,0.0f);	
-	glTranslatef(1.8f,0.0f,0.0f); // transladar para o outro lado da tela coord 1,8+
-	DesenhaMisseis();
-	
-	glPopMatrix(); // Carrega a identidade = Limpa a matrix de transformações.
-	glPushMatrix();
-	
+
 	if(missel1_moving){
 		glTranslatef(-aviao_x,0.0f,0.0f);	
 		glTranslatef(missel1_tx,0.0f,0.0f);
@@ -174,18 +171,7 @@ void TeclasEspeciais(int key, int x, int y)
 		aviao_x+=0.05;
 		if ( aviao_x > 0.9f ) // Trava o aviao a direita da tela
 			aviao_x = 0.9f; 
-	}
-	if(key == GLUT_KEY_UP){
-		missel1_moving = true;
-		missel1_tx = aviao_x;
-		glutTimerFunc(10, move_missel1, 1);
-	}     
-	if(key == GLUT_KEY_DOWN){
-		missel2_moving = true;
-		missel2_tx = aviao_x;
-		glutTimerFunc(10, move_missel2, 1);
-	}
-    
+	}	  
                                                 
 	glutPostRedisplay();
 }
@@ -195,6 +181,12 @@ void Teclado(unsigned char key, int x, int y)
 {
 	if (key == 27)
 		exit(0);
+
+	if(key == 32){
+		missel1_moving = true;
+		missel1_tx = aviao_x;
+		glutTimerFunc(10, move_missel1, 1);
+	}  
 }
            
 // Função responsável por inicializar parâmetros e variáveis
@@ -233,8 +225,7 @@ int main(int argc, char* argv[])
 	Inicializa(); 
 	
 	glutTimerFunc(0, move_missel1, 0); // Timer para mover o missel 1
-	glutTimerFunc(0, move_missel2, 0); // ..........................2
- 
+	
 	// Inicia o processamento e aguarda interações do usuário
 	glutMainLoop();
 
