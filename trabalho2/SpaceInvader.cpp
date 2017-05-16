@@ -17,10 +17,21 @@
 // Declaração de variáveis globais
 GLfloat missel1_y = 0;
 GLfloat aviao_x = 0, missel1_tx = 0;
-
 bool missel1_moving = false;
-
 int msec_missel1 = 0;
+
+struct INVASOR {
+	// 3 designs diferentes de naves invasoras
+	
+	int tipo;
+
+	// se o invasor já foi atingida ou não
+	bool ativa;
+
+	// posição atual da nave invasora
+	GLfloat x, y;
+};
+INVASOR invasors[5][10];
 
 
 void move_missel1(int passo){
