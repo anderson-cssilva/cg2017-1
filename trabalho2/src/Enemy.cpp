@@ -30,7 +30,6 @@ Shoot* Enemy::shoot() {
 		cout << "invasor shoot building\n";
         Shoot *sht = new Shoot(this, this->x_pos, this->y_pos, down_direction);
         sht->set_color(this->red, this->green, this->blue);
-        sht->set_color(1, 0, 1);
         this->my_shoot = sht;
         this->my_shoot->start();
     }
