@@ -1,8 +1,6 @@
 //
 // Created by robso on 5/16/2017.
 //
-
-#include <cstdio>
 #include "../includes/Plane.h"
 
 Plane::Plane(GLfloat x, GLfloat y) {

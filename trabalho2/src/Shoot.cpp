@@ -4,7 +4,6 @@
 
 #include "../includes/Shoot.h"
 #include <GL/glut.h>
-#include <cstdio>
 #include <vector>
 #include <algorithm>
 
@@ -43,8 +42,6 @@ void move_shoot(int step) {
 }
 
 void Shoot::move(int step) {
-    printf("shoot %p: (%f, %f)\n", this, this->x_pos, this->y_pos);
-
     if (this->direction == up_direction)
         this->y_pos += (2.0 * step) / 100;
     else if (this->direction == down_direction)
