@@ -3,6 +3,8 @@
 //
 
 #include "../includes/Enemy.h"
+#include <iostream>
+using namespace std;
 
 Enemy::Enemy(GLfloat x, GLfloat y) {
     this->x_pos = x;
@@ -25,6 +27,7 @@ void Enemy::move(int step) {
 
 Shoot* Enemy::shoot() {
     if (this->my_shoot == NULL) {
+		cout << "invasor shoot building\n";
         Shoot *sht = new Shoot(this, this->x_pos, this->y_pos, down_direction);
         //sht->set_color(this->red, this->green, this->blue);
         sht->set_color(1, 0, 1);

@@ -7,6 +7,9 @@
 #include <vector>
 #include <algorithm>
 
+#include <iostream>
+using namespace std;
+
 std::vector<Shoot *> active_shoots;
 
 Shoot::Shoot(Shooter *shooter, GLfloat x_pos, GLfloat y_pos, int direction) {
@@ -36,12 +39,14 @@ void move_shoot(int step) {
     if (!active_shoots.empty()) {
         for (int i = 0; i < active_shoots.size(); ++i)
             active_shoots.at(i)->move(step);
-        glutPostRedisplay();
+        //glutPostRedisplay();
         glutTimerFunc(10, move_shoot, step);
     }
 }
 
 void Shoot::move(int step) {
+	cout << "shoot: " << this << " move --> (" << this->x_pos << ", " << this->y_pos << ")\n";
+
     if (this->direction == up_direction)
         this->y_pos += (2.0 * step) / 100;
     else if (this->direction == down_direction)
@@ -78,6 +83,7 @@ void Shoot::draw() {
 }
 
 void Shoot::start() {
+	cout << "shoot: " << this << " starting\n";
     active_shoots.push_back((Shoot *&&) this);
     move_shoot(2);
 }
