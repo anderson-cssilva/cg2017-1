@@ -24,8 +24,11 @@ void Shoot::set_color(GLfloat red, GLfloat green, GLfloat blue) {
 
 bool Shoot::unavailable() {
     // Out of y bounds
-    if (this->y_pos >= 2.0f)
+    if (up_direction && this->y_pos >= 1.7f)
         return true;
+	else if(down_direction && this->y_pos <= -1.0)
+		return true;
+
     return false;
 }
 
