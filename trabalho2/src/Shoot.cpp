@@ -2,7 +2,7 @@
 // Created by robso on 5/15/2017.
 //
 
-#include "Shoot.h"
+#include "../includes/Shoot.h"
 #include <GL/glut.h>
 #include <cstdio>
 #include <vector>
@@ -33,6 +33,7 @@ void Shoot::move(int step) {
         this->y_pos -= (2.0 * step) / 100;
     else if (down_direction)
         this->y_pos += (2.0 * step) / 100;
+
 }
 
 void Shoot::draw() {
@@ -41,8 +42,9 @@ void Shoot::draw() {
     glColor3f(this->red, this->green, this->blue);
     glLineWidth(2);
 
-    glTranslatef(this->x_pos, 0, 0.0f);
-    glTranslatef(0, this->y_pos, 0.0f);
+    glTranslatef(this->x_pos, this->y_pos, 0.0f);
+    printf("--(%f, %f)\n", this->x_pos, this->y_pos);
+
 
     glBegin(GL_POLYGON);
     glVertex2f(0.1f, -0.1f);

@@ -2,7 +2,8 @@
 // Created by robso on 5/16/2017.
 //
 
-#include "Plane.h"
+#include <cstdio>
+#include "../includes/Plane.h"
 Plane::Plane(GLfloat x, GLfloat y) {
     this->x_pos = x;
     this->y_pos = y;
@@ -13,8 +14,13 @@ Plane::Plane(GLfloat x, GLfloat y) {
 }
 
 void Plane::draw() {
-    glPushMatrix();
+    glLoadIdentity();
     glTranslatef(this->x_pos, 0.0f, 0.0f);
+    glTranslatef(0.0f, -0.8f, 0.0f);    // Tras o conjunto do jato e misseis para bottom da tela
+    glScalef(0.1f, 0.1f, 0.0f); // Reduz 90% o tamanho do conjunto
+
+    //glTranslatef(0.0f, -0.8f, 0.0f);
+
     glColor3f(this->red, this->green, this->blue);
     glLineWidth(2);
     //x vai de -1 ate 1, y vai de -1 ate 0.1
@@ -46,8 +52,6 @@ void Plane::draw() {
     glVertex2f(-0.1f, 0.1f);
     glVertex2f(-0.1f, -0.1f);
     glEnd();
-
-    glPopMatrix();
 }
 
 void Plane::move(int direction) {
@@ -63,7 +67,9 @@ void Plane::move(int direction) {
 }
 
 Shoot* Plane::shoot() {
-    Shoot* sht = new Shoot(this->x_pos, this->y_pos + 0.5f, up_direction);
+    Shoot* sht = new Shoot(this->x_pos, this->y_pos, up_direction);
+    printf("(%f, %f)\n", this->x_pos, this->y_pos);
+
     sht->set_color(0.0f, 0.0f, 0.0f);
     return sht;
 }

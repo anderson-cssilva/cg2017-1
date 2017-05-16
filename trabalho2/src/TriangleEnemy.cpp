@@ -2,7 +2,7 @@
 // Created by robso on 5/15/2017.
 //
 
-#include "TriangleEnemy.h"
+#include "../includes/TriangleEnemy.h"
 
 TriangleEnemy::TriangleEnemy(GLfloat x, GLfloat y) : Enemy(x, y) {
     this->red = 0.5f;

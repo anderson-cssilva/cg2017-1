@@ -14,11 +14,11 @@
 #include <stdlib.h>
 #include <vector>
 #include <GL/glut.h>
-#include "Enemy.h"
-#include "SquareEnemy.h"
-#include "CircleEnemy.h"
-#include "TriangleEnemy.h"
-#include "Plane.h"
+#include "includes/Enemy.h"
+#include "includes/SquareEnemy.h"
+#include "includes/CircleEnemy.h"
+#include "includes/TriangleEnemy.h"
+#include "includes/Plane.h"
 
 // Declaração de variáveis globais
 std::vector<Enemy *> invasors;
@@ -54,15 +54,18 @@ void Desenha(void) {
     // de fundo definida previamente
     glClear(GL_COLOR_BUFFER_BIT);
 
-    glTranslatef(0.0f, -0.8f, 0.0f);    // Tras o conjunto do jato e misseis para bottom da tela
-    glScalef(0.1, 0.1f, 0.0f); // Reduz 90% o tamanho do conjunto
-
-    DesenhaTiros();
-
     // Desenha o jatinho.
     plane->draw();
 
+    glLoadIdentity();
+    glTranslatef(0.0f, -0.8f, 0.0f);    // Tras o conjunto do jato e misseis para bottom da tela
+    glScalef(0.1f, 0.1f, 0.0f); // Reduz 90% o tamanho do conjunto
+    DesenhaTiros();
+
     // Desenha os invasores
+    glLoadIdentity();
+    glTranslatef(0.0f, -0.8f, 0.0f);    // Tras o conjunto do jato e misseis para bottom da tela
+    glScalef(0.1f, 0.1f, 0.0f); // Reduz 90% o tamanho do conjunto
     DesenhaInvasores();
 
     // Executa os comandos OpenGL

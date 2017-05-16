@@ -3,7 +3,7 @@
 //
 
 #include <math.h>
-#include "CircleEnemy.h"
+#include "../includes/CircleEnemy.h"
 
 CircleEnemy::CircleEnemy(GLfloat x, GLfloat y) : Enemy(x, y) {
     this->red = 1.0f;

@@ -2,7 +2,7 @@
 // Created by robso on 5/15/2017.
 //
 
-#include "Enemy.h"
+#include "../includes/Enemy.h"
 
 Enemy::Enemy(GLfloat x, GLfloat y) {
     this->x_pos = x;
