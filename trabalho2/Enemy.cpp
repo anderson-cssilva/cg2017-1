@@ -36,7 +36,7 @@ void Enemy::move(int step) {
 }
 
 Shoot *Enemy::shoot() {
-    Shoot *sht = new Shoot(this->x_pos, this->y_pos, 1);
+    Shoot *sht = new Shoot(this->x_pos, this->y_pos, down_direction);
     sht->set_color(this->red, this->green, this->blue);
     sht->draw();
     return sht;

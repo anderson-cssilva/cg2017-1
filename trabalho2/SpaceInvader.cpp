@@ -46,14 +46,11 @@ void Desenha(void) {
     // de fundo definida previamente
     glClear(GL_COLOR_BUFFER_BIT);
 
-    glTranslatef(plane->get_x(), 0.0f, 0.0f);
     glTranslatef(0.0f, -0.8f, 0.0f);    // Tras o conjunto do jato e misseis para bottom da tela
     glScalef(0.1, 0.1f, 0.0f); // Reduz 90% o tamanho do conjunto
-    glPushMatrix();
 
     DesenhaTiros();
 
-    glPopMatrix(); //Pro jatinho nao sair junto com o missel 1.
     // Desenha o jatinho.
     plane->draw();
 
@@ -155,7 +152,7 @@ int main(int argc, char *argv[]) {
     glutInit(&argc, argv); // Inicia uma instância da glut
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
     glutInitWindowPosition(5, 5);
-    glutInitWindowSize(800, 800);
+    glutInitWindowSize(500, 500);
     glutCreateWindow("Desenho de um protótipo de jatinho do Space Invaders!");
 
     // Registra a função callback de redesenho da janela de visualização

@@ -13,6 +13,8 @@ Plane::Plane(GLfloat x, GLfloat y) {
 }
 
 void Plane::draw() {
+    glPushMatrix();
+    glTranslatef(this->x_pos, 0.0f, 0.0f);
     glColor3f(this->red, this->green, this->blue);
     glLineWidth(2);
     //x vai de -1 ate 1, y vai de -1 ate 0.1
@@ -44,6 +46,8 @@ void Plane::draw() {
     glVertex2f(-0.1f, 0.1f);
     glVertex2f(-0.1f, -0.1f);
     glEnd();
+
+    glPopMatrix();
 }
 
 void Plane::move(int direction) {

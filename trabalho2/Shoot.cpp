@@ -5,8 +5,9 @@
 #include "Shoot.h"
 #include <GL/glut.h>
 #include <cstdio>
+#include <vector>
 
-Shoot *shoot;
+std::vector<Shoot*> active_shoots;
 
 Shoot::Shoot(GLfloat x_pos, GLfloat y_pos, int direction) {
     this->x_pos = x_pos;
@@ -21,7 +22,8 @@ void Shoot::set_color(GLfloat red, GLfloat green, GLfloat blue) {
 }
 
 void move_shoot(int step) {
-    shoot->move(step);
+    for (int i=0; i < active_shoots.size(); ++i)
+        active_shoots.at(i)->move(step);
     glutPostRedisplay();
     glutTimerFunc(10, move_shoot, step);
 }
@@ -34,6 +36,8 @@ void Shoot::move(int step) {
 }
 
 void Shoot::draw() {
+    glPushMatrix();
+
     glColor3f(this->red, this->green, this->blue);
     glLineWidth(2);
 
@@ -48,11 +52,11 @@ void Shoot::draw() {
     glVertex2f(-0.1f, -0.1f);
     glEnd();
 
-    printf("(x, y) = (%f, %f)\n", this->x_pos, this->y_pos);
+    glPopMatrix(); //Pro jatinho nao sair junto com o missel 1.
 }
 
 void Shoot::start() {
-    shoot = this;
+    active_shoots.push_back((Shoot *&&) this);
     move_shoot(2);
 }
 
