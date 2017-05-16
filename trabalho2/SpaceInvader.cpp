@@ -18,69 +18,16 @@
 #include "SquareEnemy.h"
 #include "CircleEnemy.h"
 #include "TriangleEnemy.h"
+#include "Plane.h"
 
 // Declaração de variáveis globais
-GLfloat missel1_y = 0;
-GLfloat aviao_x = 0, missel1_tx = 0;
-bool missel1_moving = false;
-int msec_missel1 = 0;
-
 std::vector<Enemy *> invasors;
+std::vector<Shoot *> shoots;
+Plane *plane = new Plane(0.0f, -0.55f);
 
-
-void move_missel1(int passo) {
-    missel1_y += (2.0 * passo) / 100;
-    glutPostRedisplay();
-
-    glutTimerFunc(10, move_missel1, passo);
-}
-
-
-// Função para desenhar a base do objeto           
-void DesenhaAviao() {
-
-    glColor3f(1.0f, 0.0f, 1.0f);
-    glLineWidth(2);
-//x vai de -1 ate 1, y vai de -1 ate 0.1
-    glBegin(GL_QUADS);
-    glVertex2f(1.0f, -1.0f);
-    glVertex2f(1.0f, -0.5f);
-    glVertex2f(-1.0f, -0.5f);
-    glVertex2f(-1.0f, -1.0f);
-    glEnd();
-
-    glBegin(GL_QUADS);
-    glVertex2f(0.8f, -0.5f);
-    glVertex2f(0.8f, -0.4f);
-    glVertex2f(-0.8f, -0.4f);
-    glVertex2f(-0.8f, -0.5f);
-    glEnd();
-
-    glBegin(GL_QUADS);
-    glVertex2f(0.25f, -0.4f);
-    glVertex2f(0.25f, -0.1f);
-    glVertex2f(-0.25f, -0.1f);
-    glVertex2f(-0.25f, -0.4f);
-    glEnd();
-
-    glBegin(GL_QUADS);
-    glVertex2f(0.1f, -0.1f);
-    glVertex2f(0.1f, 0.1f);
-    glVertex2f(-0.1f, 0.1f);
-    glVertex2f(-0.1f, -0.1f);
-    glEnd();
-}
-
-void DesenhaMisseis() {
-    glColor3f(0.0f, 0.0f, 0.0f);
-    glLineWidth(2);
-    glBegin(GL_POLYGON);
-    glVertex2f(0.1f, -0.1f);
-    glVertex2f(0.1f, 0.1f);
-    glVertex2f(0.0f, 0.2f);
-    glVertex2f(-0.1f, 0.1f);
-    glVertex2f(-0.1f, -0.1f);
-    glEnd();
+void DesenhaTiros() {
+    for (int i = 0; i < shoots.size(); ++i)
+        shoots.at(i)->draw();
 }
 
 void DesenhaInvasores() {
@@ -99,29 +46,20 @@ void Desenha(void) {
     // de fundo definida previamente
     glClear(GL_COLOR_BUFFER_BIT);
 
-    glTranslatef(aviao_x, 0.0f, 0.0f);
+    glTranslatef(plane->get_x(), 0.0f, 0.0f);
     glTranslatef(0.0f, -0.8f, 0.0f);    // Tras o conjunto do jato e misseis para bottom da tela
     glScalef(0.1, 0.1f, 0.0f); // Reduz 90% o tamanho do conjunto
     glPushMatrix();
 
-    if (missel1_moving) {
-        glTranslatef(-aviao_x, 0.0f, 0.0f);
-        glTranslatef(missel1_tx, 0.0f, 0.0f);
-    }
-    //Míssel 1.
-    glTranslatef(0.0f, missel1_y, 0.0f);
-    DesenhaMisseis();
+    DesenhaTiros();
 
     glPopMatrix(); //Pro jatinho nao sair junto com o missel 1.
     // Desenha o jatinho.
-    DesenhaAviao();
+    plane->draw();
 
     // Desenha os invasores
     DesenhaInvasores();
 
-
-    printf("Aviao (%f, y)\n", aviao_x);
-    printf("Invasor (%f, %f)\n", invasors.at(0)->get_x(), invasors.at(0)->get_y());
     // Executa os comandos OpenGL
     glFlush();
 }
@@ -159,14 +97,10 @@ void AlteraTamanhoJanela(GLsizei w, GLsizei h) {
 void TeclasEspeciais(int key, int x, int y) {
     // Move a base
     if (key == GLUT_KEY_LEFT) {
-        aviao_x -= 0.05;
-        if (aviao_x < -0.9f) // Trava o aviao a esquerda da tela
-            aviao_x = -0.9f;
+        plane->move(left_direction);
     }
     if (key == GLUT_KEY_RIGHT) {
-        aviao_x += 0.05;
-        if (aviao_x > 0.9f) // Trava o aviao a direita da tela
-            aviao_x = 0.9f;
+        plane->move(right_direction);
     }
 
     glutPostRedisplay();
@@ -178,9 +112,9 @@ void Teclado(unsigned char key, int x, int y) {
         exit(0);
 
     if (key == 32) {
-        missel1_moving = true;
-        missel1_tx = aviao_x;
-        glutTimerFunc(10, move_missel1, 1);
+        Shoot* sht = plane->shoot();
+        sht->start();
+        shoots.push_back(sht);
     }
 }
 
@@ -238,8 +172,6 @@ int main(int argc, char *argv[]) {
 
     // Chama a função responsável por fazer as inicializações
     Inicializa();
-
-    glutTimerFunc(0, move_missel1, 0); // Timer para mover o missel 1
 
     // Inicia o processamento e aguarda interações do usuário
     glutMainLoop();

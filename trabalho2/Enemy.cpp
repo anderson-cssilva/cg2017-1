@@ -20,15 +20,15 @@ GLfloat Enemy::get_y() {
     return this->y_pos;
 }
 
-void move(int step) {
+void move_enemy(int step) {
     enemy->move(step);
     glutPostRedisplay();
-    glutTimerFunc(10, move, step);
+    glutTimerFunc(10, move_enemy, step);
 }
 
 void Enemy::start() {
     enemy = this;
-    move(1);
+    move_enemy(1);
 }
 
 void Enemy::move(int step) {

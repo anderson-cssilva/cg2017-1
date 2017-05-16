@@ -7,11 +7,17 @@
 
 #include <GL/gl.h>
 
+enum {up_direction, down_direction};
+
 class Shoot {
 public:
     Shoot(GLfloat x_pos, GLfloat y_pos, int direction);
     void set_color(GLfloat red, GLfloat green, GLfloat blue);
     void draw();
+    void move(int step);
+    void start();
+    GLfloat get_x();
+    GLfloat get_y();
 
 private:
     GLfloat x_pos, y_pos;
