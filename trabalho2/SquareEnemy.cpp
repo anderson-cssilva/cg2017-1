@@ -19,6 +19,4 @@ void SquareEnemy::draw() {
     glVertex2f(this->x_pos + 0.5, this->y_pos + 0.5);
     glVertex2f(this->x_pos + 0.5, this->y_pos - 0.5);
     glEnd();
-
-    this->start();
 }

@@ -28,6 +28,4 @@ void CircleEnemy::draw() {
     }
 
     glEnd();
-
-    this->start();
 }

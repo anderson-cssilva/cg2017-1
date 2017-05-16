@@ -4,8 +4,6 @@
 
 #include "Enemy.h"
 
-Enemy *enemy;
-
 Enemy::Enemy(GLfloat x, GLfloat y) {
     this->x_pos = x;
     this->y_pos = y;
@@ -20,19 +18,8 @@ GLfloat Enemy::get_y() {
     return this->y_pos;
 }
 
-void move_enemy(int step) {
-    enemy->move(step);
-    glutPostRedisplay();
-    glutTimerFunc(10, move_enemy, step);
-}
-
-void Enemy::start() {
-    enemy = this;
-    move_enemy(1);
-}
-
 void Enemy::move(int step) {
-    this->y_pos -= (2.0 * step * 0.5) / 100;
+    this->y_pos -= (2.0 * step) / 500000;
 }
 
 Shoot *Enemy::shoot() {

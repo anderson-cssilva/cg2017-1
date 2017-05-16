@@ -25,6 +25,13 @@ std::vector<Enemy *> invasors;
 std::vector<Shoot *> shoots;
 Plane *plane = new Plane(0.0f, -0.55f);
 
+void move_enemy(int step) {
+    for (int i=0; i< invasors.size(); ++i)
+        invasors.at(i)->move(step);
+    glutPostRedisplay();
+    glutTimerFunc(10, move_enemy, step);
+}
+
 void DesenhaTiros() {
     for (int i = 0; i < shoots.size(); ++i)
         shoots.at(i)->draw();
@@ -33,6 +40,7 @@ void DesenhaTiros() {
 void DesenhaInvasores() {
     for (int i = 0; i < invasors.size(); ++i)
         invasors.at(i)->draw();
+    move_enemy(1);
 }
 
 // Função callback de redesenho da janela de visualização
