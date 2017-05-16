@@ -21,6 +21,7 @@
 #include "includes/Plane.h"
 
 #include <iostream>
+#include <time.h>
 
 using namespace std;
 
@@ -64,7 +65,7 @@ void Desenha(void) {
     // Desenha o jatinho.
     glLoadIdentity();
     glTranslatef(plane->get_x(), 0.0f, 0.0f);
-    glTranslatef(0.0f, -0.8f, 0.0f);
+   glTranslatef(0.0f, -0.8f, 0.0f);
     glScalef(0.1f, 0.1f, 0.0f);
     plane->draw();
 
@@ -128,6 +129,23 @@ void Teclado(unsigned char key, int x, int y) {
         plane->shoot();
 }
 
+void TirosInvasors(int step) {
+	srand(time(NULL));
+
+	int i;
+	while(true) {
+		i = rand()%invasors.size();
+		cout << "i: " << i << endl;
+		if(invasors.at(i)->is_active() && !invasors.at(i)->has_shot())
+			break;
+	}
+	cout << " OUT of loop\n";
+	invasors.at(i)->shoot();
+
+	glutPostRedisplay();
+	glutTimerFunc(2000, TirosInvasors, step);
+}
+
 // Função responsável por inicializar parâmetros e variáveis
 void Inicializa(void) {
     // Define a cor de fundo da janela de visualização como branca
@@ -158,6 +176,9 @@ void Inicializa(void) {
             invasors.push_back(enemy);
         }
     }
+
+	// Chama pela primeira vez a função de atirar dos invasores
+	TirosInvasors(1);
 }
 
 // Programa Principal 

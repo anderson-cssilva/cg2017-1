@@ -8,6 +8,7 @@ Enemy::Enemy(GLfloat x, GLfloat y) {
     this->x_pos = x;
     this->y_pos = y;
     this->active = true;
+	this->my_shoot = NULL;
 }
 
 GLfloat Enemy::get_x() {
@@ -22,13 +23,26 @@ void Enemy::move(int step) {
     this->y_pos -= (2.0 * step) / 500000;
 }
 
-Shoot *Enemy::shoot() {
-    Shoot *sht = new Shoot(this, this->x_pos, this->y_pos, down_direction);
-    sht->set_color(this->red, this->green, this->blue);
-    sht->draw();
-    return sht;
+Shoot* Enemy::shoot() {
+    if (this->my_shoot == NULL) {
+        Shoot *sht = new Shoot(this, this->x_pos, this->y_pos, down_direction);
+        //sht->set_color(this->red, this->green, this->blue);
+        sht->set_color(1, 0, 1);
+        this->my_shoot = sht;
+        this->my_shoot->start();
+    }
+
+    return this->my_shoot;
+}
+void Enemy::shoot_done() {
+    delete this->my_shoot;
+    this->my_shoot = NULL;
 }
 
-void Enemy::shoot_done() {
+bool Enemy::is_active() {
+	return this->active;
+}
 
+bool Enemy::has_shot() {
+	return this->my_shoot != NULL;
 }

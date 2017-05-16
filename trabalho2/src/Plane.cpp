@@ -64,7 +64,6 @@ void Plane::draw() {
 
 void Plane::move(int direction) {
 
-
     if (direction == left_direction) {
         this->x_pos -= 0.05;
         if (this->x_pos < -0.9f) // Trava o aviao a esquerda da tela

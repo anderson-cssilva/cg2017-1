@@ -21,11 +21,14 @@ public:
     GLfloat get_x();
     GLfloat get_y();
 
+	bool is_active();
+	bool has_shot();
+
 protected:
     GLfloat x_pos, y_pos;
     bool active;
     GLfloat red, green, blue;
-	bool shoot_active;
+    Shoot* my_shoot;
 };
 
 #endif //TRABALHO2_ENEMY_H
