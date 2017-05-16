@@ -6,19 +6,22 @@
 #define TRABALHO2_ENEMY_H
 
 #include <GL/glut.h>
-#include "shoot.h"
+#include "Shoot.h"
 
-class enemy {
+class Enemy {
 public:
-    enemy(GLfloat x, GLfloat y);
+    Enemy(GLfloat x, GLfloat y);
     virtual void draw() = 0;
-    void move();
-    shoot shoot();
+    void start();
+    void move(int step);
+    Shoot* shoot();
 
-private:
-    GLfloat x_pos, y_pos;
+    GLfloat get_x();
+    GLfloat get_y();
 
 protected:
+    GLfloat x_pos, y_pos;
+    bool active;
     GLfloat red, green, blue;
 
 };

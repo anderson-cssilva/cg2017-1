@@ -7,13 +7,15 @@
 
 #include <GL/gl.h>
 
-class shoot {
+class Shoot {
 public:
-    shoot(GLfloat x_pos, GLfloat y_pos);
+    Shoot(GLfloat x_pos, GLfloat y_pos, int direction);
     void set_color(GLfloat red, GLfloat green, GLfloat blue);
+    void draw();
 
 private:
     GLfloat x_pos, y_pos;
+    int direction;
 
 protected:
     GLfloat red, green, blue;
