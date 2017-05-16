@@ -1,17 +1,27 @@
-#include <GL/glut.h>
+/*
+* ComputaÁ„o Gr·fica
+* Trabalho 1
+*
+* membros:
+*	Anderson Caio Santos Silva
+*	Luana Okino Sawada
+*	Robson Marques Pessoa
+*/
+
+#include <GL/freeglut.h>
 
 /* 
- * PosiÔøΩÔøΩo do topo da haste do cata vento.
- * ÔøΩ o centro do conjunto de triÔøΩngulos que formam a hÔøΩlice.
+ * PosiÁ„o do topo da haste do cata vento.
+ * … o centro do conjunto de tri‚ngulos que formam a hÈlice.
  */
 GLfloat xpos = 300.0f, ypos = 250.0f;
 
-/* Angulo para movimento da hÔøΩlice */
+/* Angulo para movimento da hÈlice */
 GLfloat theta = 0.0f;
 
 void desenhaFundo() {
     /* Desenha grama verde */
-    glColor3f(0.0f, 1.0f, 0.0f);
+    glColor3f(0.12f, 0.75f, 0.14f);
     glBegin(GL_QUADS);
     glVertex2f(0.0f, 0.0f);
     glVertex2f(0.0f, 150.0f);
@@ -19,7 +29,7 @@ void desenhaFundo() {
     glVertex2f(400.0f, 0.0f);
     glEnd();
 
-    /* Desenha cÔøΩu azul*/
+    /* Desenha cÈu azul*/
     glColor3f(0.0f, 0.0f, 1.0f);
     glBegin(GL_QUADS);
     glVertex2f(0.0f, 150.0f);
@@ -33,49 +43,50 @@ void desenhaHaste() {
     /* Desenha haste preta */
     glColor3f(.0f, .0f, .0f);
     glBegin(GL_QUADS);
-    glVertex2f(299.0f, 100.0f); // botton-left
-    glVertex2f(299.0f, 250.0f); // upper -left
-    glVertex2f(301.0f, 250.0f); // upper-right
-    glVertex2f(301.0f, 100.0f); // botton-right
+    glVertex2f(299.0f, 100.0f); /* botton-left */
+    glVertex2f(299.0f, 250.0f); /* upper -left */
+    glVertex2f(301.0f, 250.0f); /* upper-right */
+    glVertex2f(301.0f, 100.0f); /* botton-right */
     glEnd();
 }
 
 void aplicaTransformacoes() {
-    // Iniciar as transforma—É—àes 2D
+    /* Iniciar as transformaÁıes 2D */
     glLoadIdentity();
 
-    // Faz a rota√ß√£o
+    /* Faz a rotaÁ„o de todas as hÈlices com theta graus */
     glTranslatef(xpos, ypos, 0.0f);
     glRotatef(theta, 0.0f, 0.0f, 1.0f);
     glTranslatef(-xpos, -ypos, 0.0f);
 }
 
-void desenhaHelice() {
-    // Especifica a cor vermelha
-    glColor3f(1.0f, 0.0f, 0.0f);
-
-    // Desenha Helice 1
+void desenhaHelices() {
+    /* Desenha HÈlices 1 - fucsia */
+    glColor3f(1.0f, 0.0f, 0.5f);
     glBegin(GL_TRIANGLES);
     glVertex2f(xpos, ypos);
     glVertex2f(xpos + 50.0f, ypos + 15.0f);
     glVertex2f(xpos + 50.0f, ypos - 15.0f);
     glEnd();
 
-    // Desenha Helice 2
+    /* Desenha HÈlices 2 - blue */
+    glColor3f(0.3f, 0.77f, 0.84f);
     glBegin(GL_TRIANGLES);
     glVertex2f(xpos, ypos);
     glVertex2f(xpos - 50.0f, ypos + 15.0f);
     glVertex2f(xpos - 50.0f, ypos - 15.0f);
     glEnd();
 
-    // Desenha Helice 3
+    /* Desenha HÈlices 3 - verde */
+    glColor3f(0.0f, 1.0f, 0.0f);
     glBegin(GL_TRIANGLES);
     glVertex2f(xpos, ypos);
     glVertex2f(xpos - 15.0f, ypos - 50.0f);
     glVertex2f(xpos + 15.0f, ypos - 50.0f);
     glEnd();
 
-    // Desenha Helice 4
+    /* Desenha HÈlices 4 - amarela */
+    glColor3f(1.0f, 1.0f, 0.0f);
     glBegin(GL_TRIANGLES);
     glVertex2f(xpos, ypos);
     glVertex2f(xpos - 15.0f, ypos + 50.0f);
@@ -88,21 +99,22 @@ void desenha(void) {
     glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    // Iniciar as transforma—É—àes 2D
-    glMatrixMode(GL_MODELVIEW); // Inicia-se a matriz de transforma—É—àes da openGL
+    /* Iniciar as transformaÁıes 2D */
+    /* Inicia-se a matriz de transformaÁıes da openGL */
+    glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
     /* Desenha o fundo da tela */
     desenhaFundo();
 
-    /* Desenha a primeira parte do cata-vento, a Haste, que ÔøΩ fixa */
+    /* Desenha a primeira parte do cata-vento, a Haste, que È fixa */
     desenhaHaste();
 
-    /* Aplica as tranformaÔøΩÔøΩes necessÔøΩrias para o movimento das hÔøΩlices */
+    /* Aplica as tranformaÁıes necess·rias para o movimento das hÈlices */
     aplicaTransformacoes();
 
-    /* Desenha os triÔøΩngulos que representam as hÔøΩlices */
-    desenhaHelice();
+    /* Desenha os tri‚ngulos que representam as hÈlices */
+    desenhaHelices();
 
     glFlush();
 }
@@ -112,21 +124,25 @@ void on_mouseClick(int botao_clicado, int estado_do_click,
                    int x_mouse_position, int y_mouse_position) {
 
     if (estado_do_click == GLUT_UP) {
+    	/* Se o click for com o bot„o esquerdo do mouse
+    	 ent„o gira todas as hÈlices para o sentido anti-hor·rio com thera graus*/
         if (botao_clicado == GLUT_LEFT_BUTTON) {
-            theta += 10.0f;
+            theta += 36.0f;
         }
-
+        
+        /* Se o click for com o bot„o direito do mouse
+         ent„o gira todas as hÈlices para o sentido hor·rio com thera graus */
         if (botao_clicado == GLUT_RIGHT_BUTTON) {
-            theta -= 10.0f;
+            theta -= 36.0f;
         }
     }
 
-    // ForÔøΩa a glut redesenhar a cena apÔøΩs a atualizaÔøΩÔøΩo.
+    /* ForÁa a glut redesenhar a cena apÛs a atualizaÁ„o. */
     glutPostRedisplay();
 }
 
 int main(int argc, char *argv[]) {
-    /* Inicia uma inst√¢ncia da glut */
+    /* Inicia uma inst‚ncia da glut */
     glutInit(&argc, argv);
 
     /* Define o modo de display do buffer */
@@ -135,19 +151,21 @@ int main(int argc, char *argv[]) {
     /* Define o tamanho em pixels da janela */
     glutInitWindowSize(600, 600);
 
-    /* Define o t√≠tulo da janela */
-    glutCreateWindow("Exemplo OpenGL");
+    /* Define o tÌtulo da janela */
+    glutCreateWindow("ComputaÁ„o Gr·fica - Trabalho 1");
 
-    /* Estabelece que a fun√ß√£o de rendering √© a fun√ß√£o "desenha(.)" */
+    /* Estabelece que a funÁ„o de rendering È a funÁ„o "desenha(.)" */
     glutDisplayFunc(desenha);
 
     /* Tratamento de eventios de click do mouse */
     glutMouseFunc(on_mouseClick);
 
-    glMatrixMode(GL_PROJECTION); // Especifica—É—àes de observa—É—Åo de cena
-    /* Define o plano ortogonal em que a cena ser√° constru√≠da */
+    /* EspecificaÁıes de observaÁ„o de cena */
+    glMatrixMode(GL_PROJECTION);
+
+    /* Define o plano ortogonal em que a cena ser· construÌda */
     gluOrtho2D(0, 400, 0, 400);
 
-    /* Inicia as opera√ß√µes conforme as especifica√ß√µes anteriores */
+    /* Inicia as operaÁıes conforme as especificaÁıes anteriores */
     glutMainLoop();
 }
