@@ -32,7 +32,7 @@ Plane *plane = new Plane(0.0f, 0.0f);
 void move_enemy(int step) {
     for (int i = 0; i < invasors.size(); ++i)
         invasors.at(i)->move(step);
-    glutPostRedisplay();
+    //glutPostRedisplay();
     glutTimerFunc(10, move_enemy, step);
 }
 
@@ -114,7 +114,7 @@ void TeclasEspeciais(int key, int x, int y) {
         plane->move(right_direction);
     }
 
-    glutPostRedisplay();
+    //glutPostRedisplay();
 }
 
 // Função callback chamada para gerenciar eventos de teclas
@@ -133,14 +133,12 @@ void TirosInvasors(int step) {
 	int i;
 	while(true) {
 		i = rand()%invasors.size();
-		cout << "i: " << i << endl;
 		if(invasors.at(i)->is_active() && !invasors.at(i)->has_shot())
 			break;
 	}
-	cout << " OUT of loop\n";
 	invasors.at(i)->shoot();
 
-	glutPostRedisplay();
+	//glutPostRedisplay();
 	glutTimerFunc(2000, TirosInvasors, step);
 }
 
@@ -176,6 +174,11 @@ void Inicializa(void) {
 	TirosInvasors(1);
 }
 
+void redesenha(int step) {
+	glutPostRedisplay();
+	glutTimerFunc(10, redesenha, 1);
+}
+
 // Programa Principal 
 int main(int argc, char *argv[]) {
     glutInit(&argc, argv); // Inicia uma instância da glut
@@ -183,6 +186,8 @@ int main(int argc, char *argv[]) {
     glutInitWindowPosition(5, 5);
     glutInitWindowSize(500, 500);
     glutCreateWindow("Desenho de um protótipo de jatinho do Space Invaders!");
+
+	glutTimerFunc(10, redesenha, 1);
 
     // Registra a função callback de redesenho da janela de visualização
     glutDisplayFunc(Desenha);
