@@ -5,7 +5,6 @@
 #ifndef TRABALHO2_PLANE_H
 #define TRABALHO2_PLANE_H
 
-
 #include <GL/glut.h>
 #include "Shoot.h"
 #include "Shooter.h"

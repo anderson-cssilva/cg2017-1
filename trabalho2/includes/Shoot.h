@@ -8,7 +8,7 @@
 #include <GL/gl.h>
 #include "Shooter.h"
 
-enum {up_direction, down_direction};
+enum {up_direction = 1, down_direction = -1};
 
 class Shoot {
 public:
