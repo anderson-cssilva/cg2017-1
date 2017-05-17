@@ -5,7 +5,7 @@ CCFILES=src/CircleEnemy.cpp src/Enemy.cpp src/Plane.cpp src/Shoot.cpp src/Square
 CCFLAGS=-lm -lGL -lGLU -lglut -g
 
 all:
-	g++ -o $(BINARY) -I$(INCLUDES) $(MAIN) $(CCFILES) $(CCFLAGS)
+	g++ --std=c++11 -o $(BINARY) -I$(INCLUDES) $(MAIN) $(CCFILES) $(CCFLAGS)
 
 run:
 	$(BINARY)
