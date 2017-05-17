@@ -27,7 +27,7 @@ using namespace std;
 
 // Declaração de variáveis globais
 std::vector<Enemy *> invasors;
-Plane *plane = new Plane(0.0f, 0.0f);
+Plane *plane = new Plane(0.0f, -0.82f);
 
 void move_enemy(int step) {
     for (int i = 0; i < invasors.size(); ++i)
@@ -63,8 +63,6 @@ void Desenha(void) {
     // Desenha o jatinho.
     glLoadIdentity();
     glTranslatef(plane->get_x(), 0.0f, 0.0f);
-   glTranslatef(0.0f, -0.8f, 0.0f);
-    glScalef(0.1f, 0.1f, 0.0f);
     plane->draw();
 
     // Desenha o missel

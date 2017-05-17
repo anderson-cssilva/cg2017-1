@@ -19,31 +19,31 @@ void Plane::draw() {
     //x vai de -1 ate 1, y vai de -1 ate 0.1
 
     glBegin(GL_QUADS);
-    glVertex2f(1.0f, -1.0f);
-    glVertex2f(1.0f, -0.5f);
-    glVertex2f(-1.0f, -0.5f);
-    glVertex2f(-1.0f, -1.0f);
+    glVertex2f(0.1f, -0.9f);
+    glVertex2f(0.1f, -0.85f);
+    glVertex2f(-0.1f, -0.85f);
+    glVertex2f(-0.1f, -0.9f);
     glEnd();
 
     glBegin(GL_QUADS);
-    glVertex2f(0.8f, -0.5f);
-    glVertex2f(0.8f, -0.4f);
-    glVertex2f(-0.8f, -0.4f);
-    glVertex2f(-0.8f, -0.5f);
+    glVertex2f(0.08f, -0.85f);
+    glVertex2f(0.08f, -0.84f);
+    glVertex2f(-0.08f, -0.84f);
+    glVertex2f(-0.08f, -0.85f);
     glEnd();
 
     glBegin(GL_QUADS);
-    glVertex2f(0.25f, -0.4f);
-    glVertex2f(0.25f, -0.1f);
-    glVertex2f(-0.25f, -0.1f);
-    glVertex2f(-0.25f, -0.4f);
+    glVertex2f(0.025f, -0.84f);
+    glVertex2f(0.025f, -0.81f);
+    glVertex2f(-0.025f, -0.81f);
+    glVertex2f(-0.025f, -0.84f);
     glEnd();
 
     glBegin(GL_QUADS);
-    glVertex2f(0.1f, -0.1f);
-    glVertex2f(0.1f, 0.1f);
-    glVertex2f(-0.1f, 0.1f);
-    glVertex2f(-0.1f, -0.1f);
+    glVertex2f(0.01f, -0.81f);
+    glVertex2f(0.01f, -0.81f);
+    glVertex2f(-0.01f, -0.81f);
+    glVertex2f(-0.01f, -0.81f);
     glEnd();
 
     if (!this->has_shot()) {
@@ -51,11 +51,11 @@ void Plane::draw() {
         glLineWidth(2);
 
         glBegin(GL_POLYGON);
-        glVertex2f(0.1f, -0.1f);
-        glVertex2f(0.1f, 0.1f);
-        glVertex2f(0.0f, 0.2f);
-        glVertex2f(-0.1f, 0.1f);
-        glVertex2f(-0.1f, -0.1f);
+        glVertex2f(0.01f, -0.81f);
+        glVertex2f(0.01f, -0.80f);
+        glVertex2f(0.0f, -0.79f);
+        glVertex2f(-0.01f, -0.80f);
+        glVertex2f(-0.01f, -0.81f);
         glEnd();
     }
 }
