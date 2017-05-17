@@ -96,10 +96,10 @@ void drawInvaders()
 					drawCircleInvader(invaders[i][j].x, invaders[i][j].y);
 				else
 					drawSquareInvader(invaders[i][j].x, invaders[i][j].y);
-			
-				if(invaders[i][j].bullet.active) {
-					drawBullet(invaders[i][j].bullet);
-				}
+			}
+
+			if(invaders[i][j].bullet.active) {
+				drawBullet(invaders[i][j].bullet);
 			}
 		}
 	}
@@ -111,13 +111,8 @@ void draw(void)
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
-	// draw the player's base airship (changes its color based on number of lives)
-	if(base.life_count == 3)
-		glColor3f(255.0f, 0.0f, 255.0f);
-	else if(base.life_count == 2)
-		glColor3f(0.0f, 255.0f, 0.0f);
-	else 
-		glColor3f(255.0f, 0.0f, 0.0f);
+	// draw base with different levels of gray according to number of lives
+	glColor3f((1.0+base.life_count)/4.0 * 0.5f, (1.0+base.life_count)/4.0 * 0.5f,base.life_count/4.0 * 0.5f);
 	drawBase();
 
 	// draw player's bullet
@@ -163,7 +158,6 @@ void moveBaseBullet(int step)
 						invaders[i][j].active = false;
 						base.bullet.active = false;
 				}
-
 			}
 		}
 	}
@@ -183,7 +177,7 @@ void moveInvaders(int step)
 			invaders[i][j].y -= 0.1 * step;
 
 			// if the bullet is active, we have to move it as well
-			if(invaders[i][j].active && invaders[i][j].bullet.active) {
+			if(invaders[i][j].bullet.active) {
 				invaders[i][j].bullet.y -= 5.0 * step;
 
 				// Check if the bullet has decreased player's life
@@ -193,9 +187,10 @@ void moveInvaders(int step)
 				if(bx >= base.x - 50.0f && bx <= base.x + 50.0f &&
 					by >= base.y - 25.0f && by <= base.y + 25.0f) {
 						invaders[i][j].bullet.active = false;
-
 						base.life_count--;
 				}
+
+				// has reached the bottom 
 				if(invaders[i][j].bullet.y <= base.y)
 					invaders[i][j].bullet.active = false;
 			}
