@@ -111,7 +111,7 @@ void draw(void)
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
-	// draw the player's base airship (changes its color based on number of lifes)
+	// draw the player's base airship (changes its color based on number of lives)
 	if(base.life_count == 3)
 		glColor3f(255.0f, 0.0f, 255.0f);
 	else if(base.life_count == 2)
@@ -123,7 +123,7 @@ void draw(void)
 	// draw player's bullet
 	drawBullet(base.bullet);
 
-	// draw Invders
+	// draw Invaders
 	drawInvaders();
 
     glFlush();
@@ -135,15 +135,35 @@ void moveBaseBullet(int step)
 
 	base.bullet.y += 5.0 * step;
 
-	// check if this bullet is killing a invader
+	// check if this bullet is colliding some other object
 	for(int i = 0; i < 5 && base.bullet.active; i++) {
 		for(int j = 0; j < 10 && base.bullet.active; j++) {
-			if(!invaders[i][j].active) continue;
 
-			if(base.bullet.x >= invaders[i][j].x - 25.0f && base.bullet.x <= invaders[i][j].x + 25.0f && 
-				base.bullet.y >= invaders[i][j].y - 25.0f && base.bullet.y <= invaders[i][j].y + 25.0f) {
-					invaders[i][j].active = false;
+			// touching a invader's bullet (both will get destroyed)
+			if(invaders[i][j].bullet.active) {
+				GLfloat x = invaders[i][j].bullet.x;
+				GLfloat y = invaders[i][j].bullet.y;
+
+				if(base.bullet.x >= x - 5.0f && base.bullet.x <= x + 5.0f &&
+					base.bullet.y >= y - 10.0f && base.bullet.y <= y + 10.0f) {
+					invaders[i][j].bullet.active = false;
 					base.bullet.active = false;
+					// because the bullet was destroyed it can't collide anymore
+					continue; 
+				}
+			}
+
+			// killing an invader
+			if(invaders[i][j].active) {
+				GLfloat x = invaders[i][j].x;
+				GLfloat y = invaders[i][j].y;
+
+				if(base.bullet.x >= x - 25.0f && base.bullet.x <= x + 25.0f && 
+					base.bullet.y >= y - 25.0f && base.bullet.y <= y + 25.0f) {
+						invaders[i][j].active = false;
+						base.bullet.active = false;
+				}
+
 			}
 		}
 	}
@@ -166,7 +186,7 @@ void moveInvaders(int step)
 			if(invaders[i][j].active && invaders[i][j].bullet.active) {
 				invaders[i][j].bullet.y -= 5.0 * step;
 
-				// Check if the bullet has decresead player's life
+				// Check if the bullet has decreased player's life
 				GLfloat bx = invaders[i][j].bullet.x;
 				GLfloat by = invaders[i][j].bullet.y;
 
@@ -203,7 +223,7 @@ void checkGameOver(int step)
 		}
 	}
 
-	// 2: base airship has destroied all invaders
+	// 2: base airship has destroyed all invaders
 	int sum = 0;
 	for(int i = 0; i < 5; i++) {
 		for(int j = 0; j < 10; j++) {
