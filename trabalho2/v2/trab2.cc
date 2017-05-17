@@ -162,7 +162,6 @@ void moveBaseBullet(int step)
 				if(base.bullet.x >= x - 25.0f && base.bullet.x <= x + 25.0f && 
 					base.bullet.y >= y - 25.0f && base.bullet.y <= y + 25.0f) {
 						invaders[i][j].life_count--;
-						//cout << "Invasor[" << i << "][" << j << "]= " << invaders[i][j].life_count << endl;
 						base.bullet.active = false;
 						if (invaders[i][j].life_count == 0)
 							invaders[i][j].active = false;
@@ -208,7 +207,10 @@ void moveInvaders(int step)
 				}
 			}
 		}
-		step++;
+		if (step < 7)
+			step++;
+		else
+			step = 7;
 	}
 
 	if (!invaders[0][0].down){
@@ -218,13 +220,12 @@ void moveInvaders(int step)
 			if (invaders[0][9].x < 1000-25){
 				for(int i = 0; i < 5; i++) {
 					for(int j = 0; j < 10; j++) {
-						invaders[i][j].x += 1 * step;
+						invaders[i][j].x += (step+2)/2.0;
 					}
 				}
 			}		
-
 			//if hit the border then go down
-			if (invaders[0][9].x == 1000-25){
+			else {
 				for(int i = 0; i < 5; i++) {
 					for(int j = 0; j < 10; j++) {
 						invaders[i][j].down = true; // go down
@@ -235,16 +236,15 @@ void moveInvaders(int step)
 		// check the invader from the left side
 		else if (invaders[0][0].direction == 1)
 		{
-			if (invaders[0][0].x > 26){
+			if (invaders[0][0].x > 25){
 				for(int i = 0; i < 5; i++) {
 					for(int j = 0; j < 10; j++) {
-						invaders[i][j].x -= 1 * step;
+						invaders[i][j].x -= (step+2)/2.0;
 					}
 				}
 			}		
-			//else{
 			//if hit the border then go down
-			if (invaders[0][0].x == 26){
+			else {
 				for(int i = 0; i < 5; i++) {
 					for(int j = 0; j < 10; j++) {
 						invaders[i][j].down = true; // go down
@@ -279,7 +279,7 @@ void moveInvaders(int step)
 		}
 	}
 
-	glutTimerFunc(10, moveInvaders, 1);
+	glutTimerFunc(10, moveInvaders, step);
 }
 
 void gameOver()
