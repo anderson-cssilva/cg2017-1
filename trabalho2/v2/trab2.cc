@@ -16,6 +16,11 @@ struct AIRSHIP {
 	bool active;
 	BULLET bullet;
 
+	/* TODO
+	 *  Besides of the player's base airship having life counter, we could 
+	 *  also give different lifes for invaders. For instance, to kill a
+	 * 	squareInvader make necessary 1 shots, 2 for circle and 3 for triangle.
+	 */
 	// for base player's airship
 	int life_count;
 };
@@ -29,6 +34,9 @@ AIRSHIP invaders[5][10];
 /* Draw the player's airship at the bottom of the screen */
 void drawBase()
 { 
+	/* TODO
+	 * 	Draw a more nice looking base airship.
+	 */
     glBegin(GL_QUADS);
     glVertex2f(base.x - 50.0f, base.y - 25.0f);
     glVertex2f(base.x - 50.0f, base.y + 25.0f);
@@ -170,6 +178,11 @@ void moveBaseBullet(int step)
 
 
 /* Move all invaders down closer to the bottom */
+/* TODO
+ * 	besides of moving invaders to the left and right, it would be interesting 
+ * 	to increase the speed of movement as it gets closer to the bottom
+ * 	ref: http://www.clickjogos.com.br/Jogos-online/Tiro/Space-Invaders/
+ */
 void moveInvaders(int step)
 {
 	for(int i = 0; i < 5; i++) {
@@ -201,6 +214,16 @@ void moveInvaders(int step)
 
 void gameOver()
 {
+	/* TODO
+	 * Create a restart option?
+	 * Send the player a message?
+	 * 		YOU LOST - GAME OVER
+	 * 		YOU WIN - NEXT PHASE
+	 * Go to a harder phase if it's a win??
+	 * 		increase speed of invaders movement
+	 * 		invaders starting from a lower Y position
+	 * 		increase number of lifes necessary to kill a invader
+	 */
 	exit(0);
 }
 
@@ -236,6 +259,10 @@ void checkGameOver(int step)
 }
 
 /* Each second generates a random bottom invader to shoot */
+/* TODO
+ * 	Try different timers and different approaches for random generation of 
+ * 	coordinates. Maybe give more probability to the area the base is in.
+ */
 void shootInvaders(int step)
 {
 	srand(time(NULL));
@@ -256,6 +283,10 @@ void shootInvaders(int step)
 }
 
 /* Moves the player's base airship to the left and right */
+/* TODO
+ * 	Differentiate when a key is pressed down and when it keeps being pressed.
+ * 	This will allow the base airship to move independently of the bullets
+ */
 void specialKeys(int key, int x, int y)
 {
     if (key == GLUT_KEY_LEFT) {
@@ -335,6 +366,11 @@ int main(int argc, char *argv[])
     glutKeyboardFunc(keyboard);
 
     glutDisplayFunc(draw);
+	/* TODO
+	 * 	Maybe it'll be necessary to keep these values as initial and change it
+	 * 	if the window is resized. In that case, we'll need to replace the usages 
+	 * 	of fixed values considering the variables with current sizes
+	 */
     gluOrtho2D(0, 1000, 0, 1000);
 
 	localInit();
