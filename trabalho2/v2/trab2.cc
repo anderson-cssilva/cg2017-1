@@ -15,12 +15,9 @@ struct AIRSHIP {
 	GLfloat x, y;
 	bool active;
 	BULLET bullet;
-
-	/* TODO
-	 *  Besides of the player's base airship having life counter, we could 
-	 *  also give different lifes for invaders. For instance, to kill a
-	 * 	squareInvader make necessary 1 shots, 2 for circle and 3 for triangle.
-	 */
+	// for ivaders direction R=0, L=1
+	int direction;
+	bool down;
 	// for base player's airship
 	int life_count;
 };
@@ -120,7 +117,8 @@ void draw(void)
     glClear(GL_COLOR_BUFFER_BIT);
 
 	// draw base with different levels of gray according to number of lives
-	glColor3f((1.0+base.life_count)/4.0 * 0.5f, (1.0+base.life_count)/4.0 * 0.5f,base.life_count/4.0 * 0.5f);
+	glColor3f(0.75f / (1.0*base.life_count), 0.75f / (1.0*base.life_count), 0.75f / (1.0*base.life_count));
+
 	drawBase();
 
 	// draw player's bullet
@@ -163,8 +161,11 @@ void moveBaseBullet(int step)
 
 				if(base.bullet.x >= x - 25.0f && base.bullet.x <= x + 25.0f && 
 					base.bullet.y >= y - 25.0f && base.bullet.y <= y + 25.0f) {
-						invaders[i][j].active = false;
+						invaders[i][j].life_count--;
+						//cout << "Invasor[" << i << "][" << j << "]= " << invaders[i][j].life_count << endl;
 						base.bullet.active = false;
+						if (invaders[i][j].life_count == 0)
+							invaders[i][j].active = false;
 				}
 			}
 		}
@@ -185,9 +186,77 @@ void moveBaseBullet(int step)
  */
 void moveInvaders(int step)
 {
+	// moving invaders to the left and right
+	if (invaders[0][0].down){
+		// go down if it was going to the right
+		if (invaders[0][9].direction == 0){
+			for(int i = 0; i < 5; i++) {
+				for(int j = 0; j < 10; j++) {
+					invaders[i][j].y -= 25;
+					invaders[i][j].direction = 1;
+					invaders[i][j].down = false;
+				}
+			}
+		}
+		// go down if it was going to the left
+		else if (invaders[0][0].direction == 1){
+			for(int i = 0; i < 5; i++) {
+				for(int j = 0; j < 10; j++) {
+					invaders[i][j].y -= 25;
+					invaders[i][j].direction = 0;
+					invaders[i][j].down = false;
+				}
+			}
+		}
+		step++;
+	}
+
+	if (!invaders[0][0].down){
+		// check the invader from the right side
+		if (invaders[0][9].direction == 0)
+		{
+			if (invaders[0][9].x < 1000-25){
+				for(int i = 0; i < 5; i++) {
+					for(int j = 0; j < 10; j++) {
+						invaders[i][j].x += 1 * step;
+					}
+				}
+			}		
+
+			//if hit the border then go down
+			if (invaders[0][9].x == 1000-25){
+				for(int i = 0; i < 5; i++) {
+					for(int j = 0; j < 10; j++) {
+						invaders[i][j].down = true; // go down
+					}
+				}
+			}
+		}
+		// check the invader from the left side
+		else if (invaders[0][0].direction == 1)
+		{
+			if (invaders[0][0].x > 26){
+				for(int i = 0; i < 5; i++) {
+					for(int j = 0; j < 10; j++) {
+						invaders[i][j].x -= 1 * step;
+					}
+				}
+			}		
+			//else{
+			//if hit the border then go down
+			if (invaders[0][0].x == 26){
+				for(int i = 0; i < 5; i++) {
+					for(int j = 0; j < 10; j++) {
+						invaders[i][j].down = true; // go down
+					}
+				}
+			}
+		}
+	}
+
+	// collision
 	for(int i = 0; i < 5; i++) {
 		for(int j = 0; j < 10; j++) {
-			invaders[i][j].y -= 0.1 * step;
 
 			// if the bullet is active, we have to move it as well
 			if(invaders[i][j].bullet.active) {
@@ -209,6 +278,7 @@ void moveInvaders(int step)
 			}
 		}
 	}
+
 	glutTimerFunc(10, moveInvaders, 1);
 }
 
@@ -339,9 +409,18 @@ void localInit()
 		for(int j = 0; j < 10; j++) {
 			invaders[i][j].x = j * 75.0f + 150.0f;
 			invaders[i][j].y = 1000 - (i * 75.0f + 50.0f);
-
+			//cout << "inv["<< i << "][" << j << "]: \tx=" << invaders[i][j].x << "\ty=" << invaders[i][j].y << endl;
 			invaders[i][j].active = true;
 			invaders[i][j].bullet.active = false;
+			invaders[i][j].direction = 0;
+			invaders[i][j].down = false;
+
+			if (i == 0)
+				invaders[i][j].life_count = 3;
+			else if(i < 3)
+				invaders[i][j].life_count = 2;
+			else
+				invaders[i][j].life_count = 1;
 		}
 	}
 	
