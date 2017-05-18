@@ -1,12 +1,5 @@
 # TODO List
 
-*  ### **Increase speed of invaders' movement**
- 	Besides of moving invaders to the left and right, it would be interesting to increase the speed of movement as it gets closer to the bottom ref: http://www.clickjogos.com.br/Jogos-online/Tiro/Space-Invaders/
-
-* ### **Draw a more nice looking base airship.**
-	 Draw the base airship like version 1?
-	 Will need to update collision check to consider new base airship.
-
 * ### **GameOver**
 	Create a restart option?
 	Send the player a message?

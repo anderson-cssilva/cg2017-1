@@ -6,6 +6,14 @@
 
 using namespace std;
 
+//size of the screen
+int xwin = 600;
+int ywin = 600;
+
+//ortho2D
+int xview = 1000;
+int yview = 1000;
+
 struct BULLET {
 	GLfloat x, y;
 	bool active;
@@ -31,14 +39,32 @@ AIRSHIP invaders[5][10];
 /* Draw the player's airship at the bottom of the screen */
 void drawBase()
 { 
-	/* TODO
-	 * 	Draw a more nice looking base airship.
-	 */
     glBegin(GL_QUADS);
-    glVertex2f(base.x - 50.0f, base.y - 25.0f);
-    glVertex2f(base.x - 50.0f, base.y + 25.0f);
-    glVertex2f(base.x + 50.0f, base.y + 25.0f);
-    glVertex2f(base.x + 50.0f, base.y - 25.0f);
+    glVertex2f(base.x - 5.0f, base.y + 10.0f);
+    glVertex2f(base.x - 5.0f, base.y + 20.0f);
+    glVertex2f(base.x + 5.0f, base.y + 20.0f);
+    glVertex2f(base.x + 5.0f, base.y + 10.0f);
+    glEnd();
+
+    glBegin(GL_QUADS);
+    glVertex2f(base.x - 10.0f, base.y);
+    glVertex2f(base.x - 10.0f, base.y + 10.0f);
+    glVertex2f(base.x + 10.0f, base.y + 10.0f);
+    glVertex2f(base.x + 10.0f, base.y);
+    glEnd();
+
+    glBegin(GL_QUADS);
+    glVertex2f(base.x - 45.0f, base.y - 5.0f);
+    glVertex2f(base.x - 45.0f, base.y);
+    glVertex2f(base.x + 45.0f, base.y);
+    glVertex2f(base.x + 45.0f, base.y - 5.0f);
+    glEnd();
+
+	glBegin(GL_QUADS);
+    glVertex2f(base.x - 50.0f, base.y - 35.0f);
+    glVertex2f(base.x - 50.0f, base.y - 5.0f);
+    glVertex2f(base.x + 50.0f, base.y - 5.0f);
+    glVertex2f(base.x + 50.0f, base.y - 35.0f);
     glEnd();
 }
 
@@ -55,20 +81,9 @@ void drawBullet(BULLET b)
     glEnd();
 }
 
-void drawSquareInvader(GLfloat x, GLfloat y)
+void drawTriangleInvader(GLfloat x, GLfloat y, GLfloat life)
 {
-	glColor3f(0.0f, 0.0f, 255.0f);
-	glBegin(GL_QUADS);
-	glVertex2f(x - 25.0f, y - 25.0f);
-	glVertex2f(x - 25.0f, y + 25.0f);
-	glVertex2f(x + 25.0f, y + 25.0f);
-	glVertex2f(x + 25.0f, y - 25.0f);
-	glEnd();
-}
-
-void drawTriangleInvader(GLfloat x, GLfloat y)
-{
-	glColor3f(0.0f, 255.0f, 0.0f);
+	glColor3f( (4-life)/(life+4)*1.0f, 1.0f,  (4-life)/(life+4)*1.0f);
 	glBegin(GL_TRIANGLES);
 	glVertex2f(x - 25.0f, y - 25.0f);
 	glVertex2f(x, y + 25.0f);
@@ -76,9 +91,9 @@ void drawTriangleInvader(GLfloat x, GLfloat y)
 	glEnd();
 }
 
-void drawCircleInvader(GLfloat x_pos, GLfloat y_pos)
+void drawCircleInvader(GLfloat x_pos, GLfloat y_pos, GLfloat life)
 {
-	glColor3f(255.0f, 0.0f, 0.0f);
+	glColor3f(1.0f, (3-life)/(life+3)*1.0f, (3-life)/(life+3)*1.0f);
 
 	GLfloat N = 100.0f, r = 25.0f, LIM = 2.0f*3.14159265f, h = LIM / N, theta;
     glLineWidth(2);
@@ -89,6 +104,17 @@ void drawCircleInvader(GLfloat x_pos, GLfloat y_pos)
     glEnd();
 }
 
+void drawSquareInvader(GLfloat x, GLfloat y)
+{
+	glColor3f(0.0f, 0.0f, 1.0f);
+	glBegin(GL_QUADS);
+	glVertex2f(x - 25.0f, y - 25.0f);
+	glVertex2f(x - 25.0f, y + 25.0f);
+	glVertex2f(x + 25.0f, y + 25.0f);
+	glVertex2f(x + 25.0f, y - 25.0f);
+	glEnd();
+}
+
 /* Draw all active invaders */
 void drawInvaders()
 {
@@ -96,9 +122,9 @@ void drawInvaders()
 		for(int j = 0; j < 10; j++) {
 			if(invaders[i][j].active) {
 				if(i == 0)
-					drawTriangleInvader(invaders[i][j].x, invaders[i][j].y);
+					drawTriangleInvader(invaders[i][j].x, invaders[i][j].y, invaders[i][j].life_count);
 				else if(i < 3)
-					drawCircleInvader(invaders[i][j].x, invaders[i][j].y);
+					drawCircleInvader(invaders[i][j].x, invaders[i][j].y, invaders[i][j].life_count);
 				else
 					drawSquareInvader(invaders[i][j].x, invaders[i][j].y);
 			}
@@ -109,11 +135,12 @@ void drawInvaders()
 		}
 	}
 }
+							
 
 /* General drawing function */
 void draw(void) 
 {
-    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    glClearColor(0.95, 0.95f, 0.95f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
 	// draw base with different levels of gray according to number of lives
@@ -134,7 +161,7 @@ void moveBaseBullet(int step)
 {
 	if(!base.bullet.active) return;
 
-	base.bullet.y += 5.0 * step;
+	base.bullet.y += 5*step;
 
 	// check if this bullet is colliding some other object
 	for(int i = 0; i < 5 && base.bullet.active; i++) {
@@ -163,6 +190,7 @@ void moveBaseBullet(int step)
 					base.bullet.y >= y - 25.0f && base.bullet.y <= y + 25.0f) {
 						invaders[i][j].life_count--;
 						base.bullet.active = false;
+
 						if (invaders[i][j].life_count == 0)
 							invaders[i][j].active = false;
 				}
@@ -178,11 +206,6 @@ void moveBaseBullet(int step)
 
 
 /* Move all invaders down closer to the bottom */
-/* TODO
- * 	besides of moving invaders to the left and right, it would be interesting 
- * 	to increase the speed of movement as it gets closer to the bottom
- * 	ref: http://www.clickjogos.com.br/Jogos-online/Tiro/Space-Invaders/
- */
 void moveInvaders(int step)
 {
 	// moving invaders to the left and right
@@ -207,10 +230,10 @@ void moveInvaders(int step)
 				}
 			}
 		}
-		if (step < 7)
+		if (step < 4)
 			step++;
 		else
-			step = 7;
+			step = 4;
 	}
 
 	if (!invaders[0][0].down){
@@ -220,7 +243,7 @@ void moveInvaders(int step)
 			if (invaders[0][9].x < 1000-25){
 				for(int i = 0; i < 5; i++) {
 					for(int j = 0; j < 10; j++) {
-						invaders[i][j].x += (step+2)/2.0;
+						invaders[i][j].x += 0.5*(step+1)/2.0;
 					}
 				}
 			}		
@@ -239,7 +262,7 @@ void moveInvaders(int step)
 			if (invaders[0][0].x > 25){
 				for(int i = 0; i < 5; i++) {
 					for(int j = 0; j < 10; j++) {
-						invaders[i][j].x -= (step+2)/2.0;
+						invaders[i][j].x -= 0.5*(step+1)/2.0;
 					}
 				}
 			}		
@@ -260,20 +283,20 @@ void moveInvaders(int step)
 
 			// if the bullet is active, we have to move it as well
 			if(invaders[i][j].bullet.active) {
-				invaders[i][j].bullet.y -= 5.0 * step;
+				invaders[i][j].bullet.y -= (step+1)/0.5;
 
 				// Check if the bullet has decreased player's life
 				GLfloat bx = invaders[i][j].bullet.x;
 				GLfloat by = invaders[i][j].bullet.y;
 
 				if(bx >= base.x - 50.0f && bx <= base.x + 50.0f &&
-					by >= base.y - 25.0f && by <= base.y + 25.0f) {
+					by >= base.y - 35.0f && by <= base.y + 20.0f) {
 						invaders[i][j].bullet.active = false;
 						base.life_count--;
 				}
 
 				// has reached the bottom 
-				if(invaders[i][j].bullet.y <= base.y)
+				if(invaders[i][j].bullet.y <= base.y-35)
 					invaders[i][j].bullet.active = false;
 			}
 		}
@@ -409,7 +432,6 @@ void localInit()
 		for(int j = 0; j < 10; j++) {
 			invaders[i][j].x = j * 75.0f + 150.0f;
 			invaders[i][j].y = 1000 - (i * 75.0f + 50.0f);
-			//cout << "inv["<< i << "][" << j << "]: \tx=" << invaders[i][j].x << "\ty=" << invaders[i][j].y << endl;
 			invaders[i][j].active = true;
 			invaders[i][j].bullet.active = false;
 			invaders[i][j].direction = 0;
@@ -435,7 +457,7 @@ int main(int argc, char *argv[])
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
     glutInitWindowPosition(5, 5);
-    glutInitWindowSize(600, 600);
+    glutInitWindowSize(xwin, ywin);
     glutCreateWindow("CG - T2");
 
 	// for RIGHT, LEFT moving 
@@ -450,7 +472,7 @@ int main(int argc, char *argv[])
 	 * 	if the window is resized. In that case, we'll need to replace the usages 
 	 * 	of fixed values considering the variables with current sizes
 	 */
-    gluOrtho2D(0, 1000, 0, 1000);
+    gluOrtho2D(0, xview, 0, yview);
 
 	localInit();
     glutMainLoop();
