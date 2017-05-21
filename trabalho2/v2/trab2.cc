@@ -1,3 +1,16 @@
+/*
+* Computação Gráfica
+* Trabalho 1
+*
+* membros:
+*	Anderson Caio Santos Silva
+*	Luana Okino Sawada
+*	Robson Marques Pessoa
+*
+* To compile and execute:
+* make; make run
+*/
+
 #include <GL/freeglut.h>
 #include <time.h>
 #include <stdlib.h>
