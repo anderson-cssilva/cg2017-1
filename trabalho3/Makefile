@@ -1,7 +1,7 @@
 CCFLAGS=-lglut -lGLU -lGL -lm
 
 all:
-	gcc -o trab3 trab3.cpp $(CCFLAGS)
+	g++ -o trab3 trab3.cpp bibutil.cpp $(CCFLAGS)
 run:
 	./trab3
 clear:
