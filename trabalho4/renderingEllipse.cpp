@@ -4,7 +4,6 @@
 #include <vector>
 #include <math.h>
 
-
 using namespace std;
 
 	// Pontos/Vetores no R^3.
@@ -23,12 +22,9 @@ using namespace std;
 		GLPoint vetor_normal;
 	};
 	
-
-
 class Rendering{
 	
 	private:
-		
 	//Tamanho da "malha".
 	int N;
 	GLfloat R;
@@ -82,8 +78,8 @@ class Rendering{
 				phi = y_min + (i)*h_y;
 				
 				x = R*sin(phi)*cos(theta);
-				z = R*sin(phi)*sin(theta);
-				y = R*cos(phi);
+				z = R*sin(phi)*sin(theta) * 0.75;
+				y = R*cos(phi) * 0.5;
 				
 				this->mesh[i][j].ponto.x = x;
 				this->mesh[i][j].ponto.y = y;
@@ -126,7 +122,6 @@ class Rendering{
 			}
 	}
 		
-		
 	public:
 	Rendering(int N, GLfloat x_min, GLfloat x_max, GLfloat y_min, GLfloat y_max, GLfloat R){
 		this->N = N;
@@ -158,5 +153,4 @@ class Rendering{
 		
 		return this->mesh;
 	}
-	
 };

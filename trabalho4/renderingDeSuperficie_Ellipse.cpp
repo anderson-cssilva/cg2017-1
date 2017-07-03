@@ -13,6 +13,8 @@
 // Propriedades do material são alteradas através
 // das teclas e, +, -, r/R, g/G, b/B.
 //
+// Teclas AWSD movimentam a fonte de luz.
+//
 // Marcelo Cohen e Isabel H. Manssour
 // Este código acompanha o livro 
 // "OpenGL - Uma Abordagem Prática e Objetiva"
@@ -53,7 +55,6 @@ void DefineIluminacao (void)
 	GLfloat luzAmbiente[4]={0.5,0.5,0.5,1.0}; 
 	GLfloat luzDifusa[4]={0.7,0.7,0.2,1.0};	   // "cor" da fonte de luz 
 	GLfloat luzEspecular[4]={0.4, 0.5, 0.7, 1.0};// "brilho" 
-	//GLfloat posicaoLuz[4]={100.0, 100.0, 70.0, 1.0};
 	GLfloat semCorEmissao[4]={0.0,0.0,0.0,1.0};
 
 	// Define a refletância do material 
@@ -94,13 +95,10 @@ void Desenha(void)
 	glColor3f(0.0f, 0.0f, 1.0f);
 
 	malha = renObj.getMesh();
-	
-	
 	for (int i = 1; i < (N+2) - 1; i++) {
 		for (int j = 1; j < (N+2) - 1; j++) {
 			
 			glBegin(GL_QUAD_STRIP);
-				
 				glNormal3f(malha[i+1][j].vetor_normal.x, malha[i+1][j].vetor_normal.y, malha[i+1][j].vetor_normal.z);
 				glVertex3f(malha[i+1][j].ponto.x, malha[i+1][j].ponto.y, malha[i+1][j].ponto.z);
 				
@@ -113,8 +111,8 @@ void Desenha(void)
 				glNormal3f(malha[i][j+1].vetor_normal.x, malha[i][j+1].vetor_normal.y, malha[i][j+1].vetor_normal.z);
 				glVertex3f(malha[i][j+1].ponto.x, malha[i][j+1].ponto.y, malha[i][j+1].ponto.z);
 			glEnd();
-    }
-		}
+    	}
+	}
 
 	// Executa os comandos OpenGL
 	glutSwapBuffers();
@@ -319,7 +317,7 @@ int main(int argc, char *argv[])
 	glutInitWindowSize(450,450); 
  
 	// Cria a janela passando como argumento o título da mesma
-	glutCreateWindow("Torus 3D com alteração das propriedades do material");
+	glutCreateWindow("Trabalho 4");
  
 	// Registra a função callback de redesenho da janela de visualização
 	glutDisplayFunc(Desenha);
